@@ -36,6 +36,8 @@ public class SwaggerConfiguration {
         .title("Todoo task manager API")
         .description("API for Todoo. A simple task manager app")
         .version("1.0")
+        .contact("tszkopinski(at)gmail.com")
+        .license("MIT")
         .build();
   }
 }

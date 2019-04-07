@@ -4,9 +4,12 @@ import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.repository.TaskRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,7 +52,7 @@ public class TaskController {
       @ApiResponse(code = 200, message = "Success", response = Task.class),
       @ApiResponse(code = 404, message = "Not found")
   })
-  public ResponseEntity getTask(@PathVariable("taskId") String taskId) {
+  public ResponseEntity getTask(@ApiParam(value = "Id of invoice to retrieve", required = true) @PathVariable("taskId") String taskId) {
     Optional<Task> task = taskRepository.findById(Integer.valueOf(taskId));
     if (task.isPresent()) {
       return ResponseEntity.ok(task);
@@ -59,12 +62,12 @@ public class TaskController {
   }
 
   @PostMapping
-  @ApiOperation(value = "Adds single task", notes = "Adds a single task", response = Task.class)
+  @ApiOperation(value = "Adds single task", notes = "Adds a single task")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Success", response = Task.class),
       @ApiResponse(code = 500, message = "Internal Server Error")
   })
-  public ResponseEntity addTask(@RequestBody Task task) {
+  public ResponseEntity addTask(@RequestBody @Valid Task task) {
     try {
       return ResponseEntity.ok(taskRepository.save(task));
     } catch (Exception e) {
