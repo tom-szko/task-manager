@@ -13,9 +13,9 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Data
 @Entity
+@NoArgsConstructor
 @ApiModel(value = "Task model")
 @JsonIgnoreProperties("id")
 public class Task {
@@ -35,3 +35,4 @@ public class Task {
   @ApiModelProperty(name = "completed", dataType = "boolean")
   private boolean completed;
 }
+
