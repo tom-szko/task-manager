@@ -27,11 +27,11 @@ public class GlobalAuthenticationConfiguration extends GlobalAuthenticationConfi
     return userName -> {
       com.szkopinski.todoo.model.User user = userRepository.findByUserName(userName);
       if (user != null) {
-        return new User(user.getUserName(), user.getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
+        return new User(user.getUserName(), user.getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList(
+            "USER"));
       } else {
         throw new UsernameNotFoundException("Could not find the user '" + userName + "'");
       }
     };
   }
-
 }

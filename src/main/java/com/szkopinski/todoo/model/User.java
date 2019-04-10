@@ -1,5 +1,6 @@
 package com.szkopinski.todoo.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class User {
   private String userName;
 
   @NotNull
+  @Column(length = 60)
   private String password;
 
   @NotNull
@@ -26,6 +28,12 @@ public class User {
 
   public User(int id, @NotNull String userName, @NotNull String password, @NotNull String email) {
     this.id = id;
+    this.userName = userName;
+    this.password = password;
+    this.email = email;
+  }
+
+  public User(@NotNull String userName, @NotNull String password, @NotNull String email) {
     this.userName = userName;
     this.password = password;
     this.email = email;
