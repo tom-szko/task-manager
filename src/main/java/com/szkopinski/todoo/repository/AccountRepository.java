@@ -1,11 +1,11 @@
 package com.szkopinski.todoo.repository;
 
-import com.szkopinski.todoo.model.User;
+import com.szkopinski.todoo.model.Account;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface AccountRepository extends CrudRepository<Account, Integer> {
 
-  User findByUserName(String userName);
+  Account findByUserName(String userName);
 }

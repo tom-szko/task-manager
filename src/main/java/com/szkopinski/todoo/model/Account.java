@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Account {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,20 +26,20 @@ public class User {
   @NotNull
   private String email;
 
-  public User(int id, @NotNull String userName, @NotNull String password, @NotNull String email) {
+  public Account(int id, @NotNull String userName, @NotNull String password, @NotNull String email) {
     this.id = id;
     this.userName = userName;
     this.password = password;
     this.email = email;
   }
 
-  public User(@NotNull String userName, @NotNull String password, @NotNull String email) {
+  public Account(@NotNull String userName, @NotNull String password, @NotNull String email) {
     this.userName = userName;
     this.password = password;
     this.email = email;
   }
 
-  public User() {
+  public Account() {
 
   }
 
@@ -77,7 +77,7 @@ public class User {
 
   @Override
   public String toString() {
-    return "User{" +
+    return "Account{" +
         "id=" + id +
         ", userName='" + userName + '\'' +
         ", password='" + password + '\'' +
