@@ -78,7 +78,7 @@ public class TaskController {
   @DeleteMapping("/{taskId}")
   @ApiOperation(value = "Removes single task", notes = "Removes a single task")
   @ApiResponses({
-      @ApiResponse(code = 204, message = "Success", response = Task.class),
+      @ApiResponse(code = 204, message = "Success"),
       @ApiResponse(code = 500, message = "Internal Server Error")
   })
   public ResponseEntity deleteTask(@PathVariable("taskId") String taskId) {
