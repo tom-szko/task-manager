@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,7 @@ public class AccountController {
 
   @PostMapping
   @ApiOperation(value = "Adds a new user account", response = Account.class)
-  public ResponseEntity<Account> addAccount(Account account) {
+  public ResponseEntity<Account> addAccount(@RequestBody Account account) {
     String password = account.getPassword();
     account.setPassword(passwordEncoder.encode(password));
     return ResponseEntity.ok(accountRepository.save(account));

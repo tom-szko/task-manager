@@ -1,5 +1,6 @@
 package com.szkopinski.todoo.controller;
 
+import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,7 +43,7 @@ class TaskControllerTest {
   void shouldReturnAllTasks() throws Exception {
     //when
     mockMvc
-        .perform(get(String.format(URL_TEMPLATE)))
+        .perform(get(URL_TEMPLATE))
         .andDo(print())
         //then
         .andExpect(status().isOk())
@@ -104,9 +105,5 @@ class TaskControllerTest {
         .andExpect(status().isNoContent());
 
     assertFalse(taskRepository.findById(3).isPresent());
-  }
-
-  String convertToJson(Task task) throws JsonProcessingException {
-    return new ObjectMapper().writeValueAsString(task);
   }
 }
