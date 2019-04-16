@@ -9,10 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szkopinski.todoo.model.Task;
-import com.szkopinski.todoo.repository.TaskRepository;
+import com.szkopinski.todoo.service.TaskService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ class TaskControllerTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private TaskRepository taskRepository;
+  private TaskService taskService;
 
   @Test
   @DisplayName("Should retrieve all tasks present in the database")
@@ -58,7 +56,7 @@ class TaskControllerTest {
     //given
     int taskId = 3;
     Task task = new Task(taskId, "Read Effective Java book", false);
-    taskRepository.save(task);
+    taskService.addTask(task);
     //when
     mockMvc
         .perform(get(URL_TEMPLATE + taskId))
@@ -96,7 +94,7 @@ class TaskControllerTest {
     //given
     int taskId = 3;
     Task task = new Task(taskId, "Read Effective Java book", false);
-    taskRepository.save(task);
+    taskService.addTask(task);
     //when
     mockMvc
         .perform(delete(URL_TEMPLATE + 3))
@@ -104,6 +102,6 @@ class TaskControllerTest {
         //then
         .andExpect(status().isNoContent());
 
-    assertFalse(taskRepository.findById(3).isPresent());
+    assertFalse(taskService.findTask(3).isPresent());
   }
 }
