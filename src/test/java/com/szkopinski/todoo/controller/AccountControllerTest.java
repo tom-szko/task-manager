@@ -35,14 +35,14 @@ class AccountControllerTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private AccountRepository accountRepository;
+  private AccountRepository accountService;
 
   @Test
   @DisplayName("Should retrieve all accounts present in the database")
   @WithMockUser
   void shouldReturnAllAccounts() throws Exception {
     //given
-    Iterable<Account> accounts = accountRepository.findAll();
+    Iterable<Account> accounts = accountService.findAll();
     String accountsAsJson = convertToJson(accounts);
     //when
     mockMvc
@@ -60,7 +60,7 @@ class AccountControllerTest {
   void shouldReturnAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = accountRepository.findById(accountId);
+    Optional<Account> account = accountService.findById(accountId);
     String accountAsJson = convertToJson(account.get());
     //when
     mockMvc
@@ -78,7 +78,7 @@ class AccountControllerTest {
   void shouldDeleteAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = accountRepository.findById(accountId);
+    Optional<Account> account = accountService.findById(accountId);
     String accountAsJson = convertToJson(account.get());
     //when
     mockMvc
@@ -87,7 +87,7 @@ class AccountControllerTest {
         //then
         .andExpect(status().isNoContent());
 
-    assertFalse(accountRepository.existsById(1));
+    assertFalse(accountService.existsById(1));
   }
 
   @Test
