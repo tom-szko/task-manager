@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class TodooApplication implements CommandLineRunner {
 
   @Autowired
-  private AccountRepository accountRepository;
+  private AccountRepository accountService;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -24,10 +24,10 @@ public class TodooApplication implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     Account account1 = new Account("admin", passwordEncoder.encode("password"), "admin@szkopinski.com");
-    accountRepository.save(account1);
+    accountService.save(account1);
     System.out.println(account1.toString());
     Account account2 = new Account("user", passwordEncoder.encode("1234"), "admin@szkopinski.com");
-    accountRepository.save(account2);
+    accountService.save(account2);
     System.out.println(account2.toString());
   }
 }
