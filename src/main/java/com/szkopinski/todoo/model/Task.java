@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "Task model")
-@JsonIgnoreProperties(value = {"id"}, allowGetters = true)
+@JsonIgnoreProperties(value = {"id", "creationDate"}, allowGetters = true)
 public class Task {
 
   @Id
@@ -43,4 +44,8 @@ public class Task {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ChecklistItem> checklist;
 
+  @JsonProperty("creationDate")
+  private LocalDate creationDate;
+
+  private LocalDate deadline;
 }
