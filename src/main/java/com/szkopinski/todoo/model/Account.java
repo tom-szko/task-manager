@@ -1,5 +1,7 @@
 package com.szkopinski.todoo.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "users")
 public class Account {
 
@@ -37,10 +40,6 @@ public class Account {
     this.userName = userName;
     this.password = password;
     this.email = email;
-  }
-
-  public Account() {
-
   }
 
   public int getId() {

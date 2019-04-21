@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class AccountService {
 
   private AccountRepository accountRepository;
-  private PasswordEncoder passwordEncoder;
+  private static PasswordEncoder passwordEncoder;
 
   @Autowired
   public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
@@ -37,12 +37,16 @@ public class AccountService {
 
   public Account addAccount(Account account) {
     String password = account.getPassword();
-    account.setPassword(passwordEncoder.encode(password));
+    account.setPassword(encodePassword(password));
     return accountRepository.save(account);
   }
 
   public void deleteAccount(int accountId) {
     accountRepository.deleteById(accountId);
+  }
+
+  public static String encodePassword(String password) {
+    return passwordEncoder.encode(password);
   }
 
   public UserDetailsService getUser() {

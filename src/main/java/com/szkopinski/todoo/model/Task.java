@@ -14,14 +14,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+import net.bytebuddy.build.HashCodeAndEqualsPlugin;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 @ApiModel(value = "Task model")
 @JsonIgnoreProperties(value = {"id", "creationDate"}, allowGetters = true)
 public class Task {
@@ -40,7 +43,6 @@ public class Task {
   @ApiModelProperty(name = "completed", dataType = "boolean")
   private boolean completed;
 
-  //TODO - add swagger and hibernate annotations
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ChecklistItem> checklist;
 
@@ -49,3 +51,4 @@ public class Task {
 
   private LocalDate deadline;
 }
+
