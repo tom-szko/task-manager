@@ -7,10 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.service.TaskService;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +58,7 @@ class TaskControllerTest {
   void shouldReturnTaskById() throws Exception {
     //given
     int taskId = 3;
-    Task task = new Task(taskId, "Read Effective Java book", false);
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
     taskService.addTask(task);
     //when
     mockMvc
@@ -72,8 +75,8 @@ class TaskControllerTest {
   @WithMockUser
   void shouldAddNewTask() throws Exception {
     //given
-    int taskId = 6;
-    Task task = new Task(taskId, "Read Effective Java book", false);
+    int taskId = 3;
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
     String taskAsJson = convertToJson(task);
     //when
     mockMvc
@@ -84,7 +87,8 @@ class TaskControllerTest {
         //then
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
-        .andExpect(content().json(taskAsJson));
+        .andExpect(jsonPath("$.contents").value(task.getContents()))
+        .andExpect(jsonPath("$.completed").value(task.isCompleted()));
   }
 
   @Test
@@ -93,7 +97,7 @@ class TaskControllerTest {
   void shouldRemoveSingleTask() throws Exception {
     //given
     int taskId = 3;
-    Task task = new Task(taskId, "Read Effective Java book", false);
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
     taskService.addTask(task);
     //when
     mockMvc
