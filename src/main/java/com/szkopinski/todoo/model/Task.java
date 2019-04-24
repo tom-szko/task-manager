@@ -31,7 +31,7 @@ public class Task {
 
   @Id
   @JsonProperty("id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @ApiModelProperty(value = "Id of given task", dataType = "Integer")
   private int id;
 

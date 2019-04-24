@@ -57,7 +57,7 @@ class TaskControllerTest {
   @WithMockUser
   void shouldReturnTaskById() throws Exception {
     //given
-    int taskId = 3;
+    int taskId = 1;
     Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
     taskService.addTask(task);
     //when
@@ -75,7 +75,7 @@ class TaskControllerTest {
   @WithMockUser
   void shouldAddNewTask() throws Exception {
     //given
-    int taskId = 3;
+    int taskId = 1;
     Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
     String taskAsJson = convertToJson(task);
     //when
@@ -96,16 +96,16 @@ class TaskControllerTest {
   @WithMockUser
   void shouldRemoveSingleTask() throws Exception {
     //given
-    int taskId = 3;
+    int taskId = 1;
     Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
     taskService.addTask(task);
     //when
     mockMvc
-        .perform(delete(URL_TEMPLATE + 3))
+        .perform(delete(URL_TEMPLATE + taskId))
         .andDo(print())
         //then
         .andExpect(status().isNoContent());
 
-    assertFalse(taskService.findTask(3).isPresent());
+    assertFalse(taskService.findTask(taskId).isPresent());
   }
 }
