@@ -3,6 +3,7 @@ package com.szkopinski.todoo.service;
 import com.szkopinski.todoo.model.Account;
 import com.szkopinski.todoo.repository.AccountRepository;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -14,13 +15,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-  private AccountRepository accountRepository;
   private static PasswordEncoder passwordEncoder;
+  private AccountRepository accountRepository;
 
   @Autowired
   public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
     this.accountRepository = accountRepository;
     this.passwordEncoder = passwordEncoder;
+  }
+
+  public static String encodePassword(String password) {
+    return passwordEncoder.encode(password);
   }
 
   public Iterable<Account> getAllAccounts() {
@@ -35,18 +40,27 @@ public class AccountService {
     return accountRepository.findById(accountId);
   }
 
+  @Transactional
   public Account addAccount(Account account) {
     String password = account.getPassword();
     account.setPassword(encodePassword(password));
     return accountRepository.save(account);
   }
 
+  @Transactional
   public void deleteAccount(int accountId) {
     accountRepository.deleteById(accountId);
   }
 
-  public static String encodePassword(String password) {
-    return passwordEncoder.encode(password);
+  @Transactional
+  public Account updateAccount(int accountId, Account updatedAccount) {
+    return accountRepository.findById(accountId)
+        .map(account -> {
+          account.setUserName(updatedAccount.getUserName());
+          account.setPassword(updatedAccount.getPassword());
+          account.setEmail(updatedAccount.getEmail());
+          return account;
+        }).orElse(null);
   }
 
   public UserDetailsService getUser() {
