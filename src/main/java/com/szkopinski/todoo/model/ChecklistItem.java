@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class ChecklistItem {
   @Id
   @JsonProperty("id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @NotNull(message = "description is a required field")
