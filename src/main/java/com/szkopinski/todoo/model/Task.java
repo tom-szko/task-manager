@@ -43,12 +43,14 @@ public class Task {
   @ApiModelProperty(name = "completed", dataType = "boolean")
   private boolean completed;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL)
   private List<ChecklistItem> checklist;
 
   @JsonProperty("creationDate")
+  @ApiModelProperty(dataType = "java.sql.Date", notes = "Date format should be YYYY-MM-DD", example = "2019-04-22")
   private LocalDate creationDate;
 
+  @ApiModelProperty(dataType = "java.sql.Date", notes = "Date format should be YYYY-MM-DD", example = "2019-04-22")
   private LocalDate deadline;
 }
 

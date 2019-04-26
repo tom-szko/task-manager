@@ -91,15 +91,11 @@ public class TaskController {
     })
     public ResponseEntity updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody Task updatedTask) {
         try {
-            return taskService.findTask(Integer.valueOf(taskId))
-                    .map(task -> {
-                        task.setDeadline(updatedTask.getDeadline());
-                        task.setCreationDate(updatedTask.getCreationDate());
-                        task.setCompleted(updatedTask.isCompleted());
-                        task.setContents(updatedTask.getContents());
-                        task.setChecklist(updatedTask.getChecklist());
-                        return ResponseEntity.ok(task);
-                    }).orElse(ResponseEntity.notFound().build());
+            Task newTask = taskService.updateTask(Integer.valueOf(taskId), updatedTask);
+            if (newTask == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(newTask);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
