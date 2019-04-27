@@ -28,4 +28,9 @@ public class ChecklistItem {
   private String description;
 
   private boolean completed;
+
+  public ChecklistItem(String description, boolean completed) {
+    this.description = description;
+    this.completed = completed;
+  }
 }

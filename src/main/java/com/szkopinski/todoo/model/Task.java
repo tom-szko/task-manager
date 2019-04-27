@@ -19,12 +19,9 @@ import lombok.*;
 import net.bytebuddy.build.HashCodeAndEqualsPlugin;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
 @ApiModel(value = "Task model")
 @JsonIgnoreProperties(value = {"id", "creationDate"}, allowGetters = true)
 public class Task {
@@ -52,5 +49,13 @@ public class Task {
 
   @ApiModelProperty(dataType = "java.sql.Date", notes = "Date format should be YYYY-MM-DD", example = "2019-04-22")
   private LocalDate deadline;
+
+  public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline) {
+    this.contents = contents;
+    this.completed = completed;
+    this.checklist = checklist;
+    this.creationDate = creationDate;
+    this.deadline = deadline;
+  }
 }
 
