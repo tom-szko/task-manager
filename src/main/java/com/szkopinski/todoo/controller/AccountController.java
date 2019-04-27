@@ -1,7 +1,6 @@
 package com.szkopinski.todoo.controller;
 
 import com.szkopinski.todoo.model.Account;
-import com.szkopinski.todoo.repository.AccountRepository;
 import com.szkopinski.todoo.service.AccountService;
 import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;

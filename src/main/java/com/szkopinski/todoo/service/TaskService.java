@@ -4,6 +4,7 @@ import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.repository.TaskRepository;
 import java.util.Optional;
 import javax.transaction.Transactional;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class TaskService {
   }
 
   @Transactional
-  public Task addTask(Task task) {
+  public Task addTask(@NonNull Task task) {
     return taskRepository.save(task);
   }
 
@@ -36,7 +37,7 @@ public class TaskService {
   }
 
   @Transactional
-  public Task updateTask(int taskId, Task updatedTask) {
+  public Task updateTask(int taskId, @NonNull Task updatedTask) {
     return taskRepository.findById(taskId)
         .map(task -> {
           task.setContents(updatedTask.getContents());
