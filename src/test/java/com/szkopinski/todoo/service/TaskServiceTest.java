@@ -48,7 +48,7 @@ class TaskServiceTest {
   }
 
   @Test
-  @DisplayName("Should invoke deletion of existing task with given id number")
+  @DisplayName("Should delete of existing task with given id number")
   void shouldDeleteExistingTask() {
     //given
     int taskId = 1;
