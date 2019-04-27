@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {"id"}, allowGetters = true)
 public class ChecklistItem {
+
   @Id
   @JsonProperty("id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
