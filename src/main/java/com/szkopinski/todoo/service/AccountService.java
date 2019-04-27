@@ -32,7 +32,7 @@ public class AccountService {
     return accountRepository.findAll();
   }
 
-  public Account getAccountByUserName(String username) {
+  public Optional<Account> getAccountByUserName(String username) {
     return accountRepository.findByUserName(username);
   }
 
@@ -65,9 +65,9 @@ public class AccountService {
 
   public UserDetailsService getUser() {
     return userName -> {
-      Account account = accountRepository.findByUserName(userName);
-      if (account != null) {
-        return new User(account.getUserName(), account.getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList(
+      Optional<Account> account = accountRepository.findByUserName(userName);
+      if (account.isPresent()) {
+        return new User(account.get().getUserName(), account.get().getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList(
             "USER"));
       } else {
         throw new UsernameNotFoundException("Could not find the account '" + userName + "'");

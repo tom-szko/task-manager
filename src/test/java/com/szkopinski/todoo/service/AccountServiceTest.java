@@ -76,13 +76,13 @@ class AccountServiceTest {
     //given
     String userName = "John Doe";
     Account account = new Account(userName, "password", "john@doe.com");
-    when(repository.findByUserName("John Doe")).thenReturn(account);
+    when(repository.findByUserName("John Doe")).thenReturn(Optional.of(account));
 
     //when
-    Account result = accountService.getAccountByUserName(userName);
+    Optional<Account> result = accountService.getAccountByUserName(userName);
 
     //then
-    assertEquals(account, result);
+    assertEquals(account, result.get());
     verify(repository).findByUserName(userName);
   }
 
