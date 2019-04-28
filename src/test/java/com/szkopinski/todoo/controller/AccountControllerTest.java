@@ -2,9 +2,7 @@ package com.szkopinski.todoo.controller;
 
 import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -12,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.szkopinski.todoo.model.Account;
 import com.szkopinski.todoo.repository.AccountRepository;
+
+import java.net.URL;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,14 +35,14 @@ class AccountControllerTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private AccountRepository accountService;
+  private AccountRepository repository;
 
   @Test
   @DisplayName("Should retrieve all accounts present in the database")
   @WithMockUser
   void shouldReturnAllAccounts() throws Exception {
     //given
-    Iterable<Account> accounts = accountService.findAll();
+    Iterable<Account> accounts = repository.findAll();
     String accountsAsJson = convertToJson(accounts);
     //when
     mockMvc
@@ -60,7 +60,7 @@ class AccountControllerTest {
   void shouldReturnAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = accountService.findById(accountId);
+    Optional<Account> account = repository.findById(accountId);
     String accountAsJson = convertToJson(account.get());
     //when
     mockMvc
@@ -78,7 +78,7 @@ class AccountControllerTest {
   void shouldDeleteAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = accountService.findById(accountId);
+    Optional<Account> account = repository.findById(accountId);
     String accountAsJson = convertToJson(account.get());
     //when
     mockMvc
@@ -87,7 +87,7 @@ class AccountControllerTest {
         //then
         .andExpect(status().isNoContent());
 
-    assertFalse(accountService.existsById(1));
+    assertFalse(repository.existsById(1));
   }
 
   @Test
@@ -109,4 +109,78 @@ class AccountControllerTest {
         .andExpect(jsonPath("$.userName").value("john_doe"))
         .andExpect(jsonPath("$.email").value("john@doe.com"));
   }
+
+  @Test
+  @DisplayName("Should update existing account")
+  @WithMockUser
+  void shouldUpdateExistingAccount() throws Exception {
+    //given
+    Account account = new Account("John Doe", "password", "john@doe.com");
+    Account savedAccount = repository.save(account);
+    Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
+    String updatedAccountAsJson = convertToJson(updatedAccount);
+
+    //when
+    mockMvc
+            .perform(put(URL_TEMPLATE + savedAccount.getId())
+                    .contentType(CONTENT_TYPE_JSON)
+                    .content(updatedAccountAsJson))
+            .andDo(print())
+            //then
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(CONTENT_TYPE_JSON))
+            .andExpect(jsonPath("$.userName").value("John P. Doe"))
+            .andExpect(jsonPath("$.password").value("updatedPassword"))
+            .andExpect(jsonPath("$.email").value("john@doe2.com"));
+  }
+
+  @Test
+  @DisplayName("Should return Not Found status code when non-existent id is provided on account retrieval")
+  @WithMockUser
+  void shouldReturnNotFoundWhenBadIdProvidedOnAccountRetrieval() throws Exception {
+    //given
+    int accountId = -1;
+
+    //when
+    mockMvc
+            .perform(get(URL_TEMPLATE + accountId))
+            .andDo(print())
+    //then
+            .andExpect(status().isNotFound());
+  }
+
+    @Test
+    @DisplayName("Should return Not Found status code when non-existent id is provided on account update")
+    @WithMockUser
+    void shouldReturnNotFoundWhenBadIdProvidedOnAccountUpdate() throws Exception {
+      //given
+        int accountId = -1;
+        Account account = new Account("John Doe", "password", "john@doe.com");
+        Account savedAccount = repository.save(account);
+        Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
+        String updatedAccountAsJson = convertToJson(updatedAccount);
+
+        //when
+        mockMvc
+                .perform(put(URL_TEMPLATE + accountId)
+                .contentType(CONTENT_TYPE_JSON)
+                .content(updatedAccountAsJson))
+                .andDo(print())
+        //then
+                .andExpect(status().isNotFound());
+    }
+
+//  @Test
+//  @DisplayName("Should return Internal Server Error status code when exception is thrown on update")
+//  @WithMockUser
+//  void shouldReturnInternalServerErrorWhenExceptionIsThrowOnUpdate() throws Exception {
+//    //given
+//    int accountId
+//
+//    //when
+//    mockMvc
+//            .perform(put(URL_TEMPLATE + accountId))
+//    //then
+//
+//  }
 }
