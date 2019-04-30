@@ -1,7 +1,9 @@
 package com.szkopinski.todoo.controller;
 
 import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -9,9 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.szkopinski.todoo.model.Account;
-import com.szkopinski.todoo.repository.AccountRepository;
 
-import java.net.URL;
+import com.szkopinski.todoo.service.AccountService;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,14 +36,14 @@ class AccountControllerTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private AccountRepository repository;
+  private AccountService accountService;
 
   @Test
   @DisplayName("Should retrieve all accounts present in the database")
   @WithMockUser
   void shouldReturnAllAccounts() throws Exception {
     //given
-    Iterable<Account> accounts = repository.findAll();
+    Iterable<Account> accounts = accountService.getAllAccounts();
     String accountsAsJson = convertToJson(accounts);
     //when
     mockMvc
@@ -60,7 +61,7 @@ class AccountControllerTest {
   void shouldReturnAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = repository.findById(accountId);
+    Optional<Account> account = accountService.getAccountById(accountId);
     String accountAsJson = convertToJson(account.get());
     //when
     mockMvc
@@ -78,7 +79,7 @@ class AccountControllerTest {
   void shouldDeleteAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = repository.findById(accountId);
+    Optional<Account> account = accountService.getAccountById(accountId);
     String accountAsJson = convertToJson(account.get());
     //when
     mockMvc
@@ -87,7 +88,7 @@ class AccountControllerTest {
         //then
         .andExpect(status().isNoContent());
 
-    assertFalse(repository.existsById(1));
+    assertFalse(accountService.getAccountById(1).isPresent());
   }
 
   @Test
@@ -116,7 +117,7 @@ class AccountControllerTest {
   void shouldUpdateExistingAccount() throws Exception {
     //given
     Account account = new Account("John Doe", "password", "john@doe.com");
-    Account savedAccount = repository.save(account);
+    Account savedAccount = accountService.addAccount(account);
     Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
     String updatedAccountAsJson = convertToJson(updatedAccount);
 
@@ -156,7 +157,7 @@ class AccountControllerTest {
       //given
         int accountId = -1;
         Account account = new Account("John Doe", "password", "john@doe.com");
-        Account savedAccount = repository.save(account);
+        Account savedAccount = accountService.addAccount(account);
         Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
         String updatedAccountAsJson = convertToJson(updatedAccount);
 
@@ -169,18 +170,4 @@ class AccountControllerTest {
         //then
                 .andExpect(status().isNotFound());
     }
-
-//  @Test
-//  @DisplayName("Should return Internal Server Error status code when exception is thrown on update")
-//  @WithMockUser
-//  void shouldReturnInternalServerErrorWhenExceptionIsThrowOnUpdate() throws Exception {
-//    //given
-//    int accountId
-//
-//    //when
-//    mockMvc
-//            .perform(put(URL_TEMPLATE + accountId))
-//    //then
-//
-//  }
 }
