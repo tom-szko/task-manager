@@ -1,32 +1,31 @@
 package com.szkopinski.todoo.controller;
 
 import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.sun.tools.javac.util.List;
 import com.szkopinski.todoo.model.Account;
-
+import com.szkopinski.todoo.repository.AccountRepository;
 import com.szkopinski.todoo.service.AccountService;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@WebMvcTest(AccountController.class)
 class AccountControllerTest {
 
   private static final String URL_TEMPLATE = "/api/accounts/";
@@ -35,19 +34,32 @@ class AccountControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @Autowired
+  @MockBean
   private AccountService accountService;
 
+  @MockBean
+  private AccountRepository accountRepository;
+
+  @MockBean
+  private PasswordEncoder passwordEncoder;
+
   @Test
-  @DisplayName("Should retrieve all accounts present in the database")
   @WithMockUser
+  @DisplayName("Should return all accounts")
   void shouldReturnAllAccounts() throws Exception {
+
     //given
-    Iterable<Account> accounts = accountService.getAllAccounts();
+    Account account1 = new Account("user1", "password1", "email1@email.com");
+    Account account2 = new Account("user2", "password2", "email2@email.com");
+    Account account3 = new Account("user3", "password3", "email3@email.com");
+    Iterable<Account> accounts = List.of(account1, account2, account3);
     String accountsAsJson = convertToJson(accounts);
+    when(accountService.getAllAccounts()).thenReturn(accounts);
+
     //when
     mockMvc
-        .perform(get(URL_TEMPLATE))
+        .perform(get(URL_TEMPLATE)
+            .accept(CONTENT_TYPE_JSON))
         .andDo(print())
         //then
         .andExpect(status().isOk())
@@ -56,16 +68,19 @@ class AccountControllerTest {
   }
 
   @Test
-  @DisplayName("Should retrieve single account with given id")
   @WithMockUser
+  @DisplayName("Should return account with given id number")
   void shouldReturnAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = accountService.getAccountById(accountId);
-    String accountAsJson = convertToJson(account.get());
+    Account account = new Account("user", "password", "email1@email.com");
+    String accountAsJson = convertToJson(account);
+    when(accountService.getAccountById(accountId)).thenReturn(Optional.of(account));
+
     //when
     mockMvc
-        .perform(get(URL_TEMPLATE + accountId))
+        .perform(get(URL_TEMPLATE + accountId)
+            .accept(CONTENT_TYPE_JSON))
         .andDo(print())
         //then
         .andExpect(status().isOk())
@@ -73,101 +88,62 @@ class AccountControllerTest {
         .andExpect(content().json(accountAsJson));
   }
 
+//  @Test
+//  @WithMockUser
+//  @DisplayName("Should add new user account")
+//  void shouldAddNewUserAccount() throws Exception {
+//    //given
+//    Account account = new Account("user", "password", "email@email.com");
+//    String accountAsJson = convertToJson(account);
+//    when(accountService.addAccount(account)).thenReturn(account);
+//
+//    //when
+//    mockMvc
+//        .perform(post(URL_TEMPLATE)
+//            .accept(CONTENT_TYPE_JSON))
+//        .andDo(print())
+//        //then
+//        .andExpect(status().isOk())
+//        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+//        .andExpect(content().json(accountAsJson));
+//  }
+
   @Test
-  @DisplayName("Should delete single account with given id")
   @WithMockUser
+  @DisplayName("Should delete user account with given id")
   void shouldDeleteAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Optional<Account> account = accountService.getAccountById(accountId);
-    String accountAsJson = convertToJson(account.get());
+    doNothing().when(accountService).deleteAccount(accountId);
+
     //when
     mockMvc
-        .perform(delete(URL_TEMPLATE + accountId))
+        .perform(delete(URL_TEMPLATE + accountId)
+            .accept(CONTENT_TYPE_JSON))
         .andDo(print())
         //then
         .andExpect(status().isNoContent());
-
-    assertFalse(accountService.getAccountById(1).isPresent());
   }
 
   @Test
-  @DisplayName("Should add new account")
   @WithMockUser
-  void shouldAddNewAccount() throws Exception {
+  @DisplayName("Should update user account with given id")
+  void shouldUpdateAccountWithGivenId() throws Exception {
     //given
-    Account account = new Account("john_doe", "johnspassword", "john@doe.com");
-    String accountAsJson = convertToJson(account);
+    int accountId = 1;
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated_email");
+    String updatedAccountAsJson = convertToJson(updatedAccount);
+    when(accountService.updateAccount(accountId, updatedAccount)).thenReturn(updatedAccount);
+
     //when
     mockMvc
-        .perform(post(URL_TEMPLATE)
+        .perform(put(URL_TEMPLATE + accountId)
             .contentType(CONTENT_TYPE_JSON)
-            .content(accountAsJson))
+            .content(updatedAccountAsJson))
         .andDo(print())
         //then
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
-        .andExpect(jsonPath("$.userName").value("john_doe"))
-        .andExpect(jsonPath("$.email").value("john@doe.com"));
+        .andExpect(content().string(updatedAccountAsJson));
   }
-
-  @Test
-  @DisplayName("Should update existing account")
-  @WithMockUser
-  void shouldUpdateExistingAccount() throws Exception {
-    //given
-    Account account = new Account("John Doe", "password", "john@doe.com");
-    Account savedAccount = accountService.addAccount(account);
-    Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
-    String updatedAccountAsJson = convertToJson(updatedAccount);
-
-    //when
-    mockMvc
-            .perform(put(URL_TEMPLATE + savedAccount.getId())
-                    .contentType(CONTENT_TYPE_JSON)
-                    .content(updatedAccountAsJson))
-            .andDo(print())
-            //then
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(CONTENT_TYPE_JSON))
-            .andExpect(jsonPath("$.userName").value("John P. Doe"))
-            .andExpect(jsonPath("$.password").value("updatedPassword"))
-            .andExpect(jsonPath("$.email").value("john@doe2.com"));
-  }
-
-  @Test
-  @DisplayName("Should return Not Found status code when non-existent id is provided on account retrieval")
-  @WithMockUser
-  void shouldReturnNotFoundWhenBadIdProvidedOnAccountRetrieval() throws Exception {
-    //given
-    int accountId = -1;
-
-    //when
-    mockMvc
-            .perform(get(URL_TEMPLATE + accountId))
-            .andDo(print())
-    //then
-            .andExpect(status().isNotFound());
-  }
-
-    @Test
-    @DisplayName("Should return Not Found status code when non-existent id is provided on account update")
-    @WithMockUser
-    void shouldReturnNotFoundWhenBadIdProvidedOnAccountUpdate() throws Exception {
-      //given
-        int accountId = -1;
-        Account account = new Account("John Doe", "password", "john@doe.com");
-        Account savedAccount = accountService.addAccount(account);
-        Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
-        String updatedAccountAsJson = convertToJson(updatedAccount);
-
-        //when
-        mockMvc
-                .perform(put(URL_TEMPLATE + accountId)
-                .contentType(CONTENT_TYPE_JSON)
-                .content(updatedAccountAsJson))
-                .andDo(print())
-        //then
-                .andExpect(status().isNotFound());
-    }
 }

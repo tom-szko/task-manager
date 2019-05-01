@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class TaskControllerTest {
+class TaskControllerIT {
 
   private static final String URL_TEMPLATE = "/api/tasks/";
   private static final MediaType CONTENT_TYPE_JSON = MediaType.APPLICATION_JSON_UTF8;
