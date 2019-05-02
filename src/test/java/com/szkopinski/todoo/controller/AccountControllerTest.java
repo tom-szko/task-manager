@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -88,25 +89,25 @@ class AccountControllerTest {
         .andExpect(content().json(accountAsJson));
   }
 
-//  @Test
-//  @WithMockUser
-//  @DisplayName("Should add new user account")
-//  void shouldAddNewUserAccount() throws Exception {
-//    //given
-//    Account account = new Account("user", "password", "email@email.com");
-//    String accountAsJson = convertToJson(account);
-//    when(accountService.addAccount(account)).thenReturn(account);
-//
-//    //when
-//    mockMvc
-//        .perform(post(URL_TEMPLATE)
-//            .accept(CONTENT_TYPE_JSON))
-//        .andDo(print())
-//        //then
-//        .andExpect(status().isOk())
-//        .andExpect(content().contentType(CONTENT_TYPE_JSON))
-//        .andExpect(content().json(accountAsJson));
-//  }
+  @Test
+  @WithMockUser
+  @DisplayName("Should add new user account")
+  void shouldAddNewUserAccount() throws Exception {
+    //given
+    Account account = new Account("user", "password", "user@email.com");
+    String accountAsJson = convertToJson(account);
+    when(accountService.addAccount(account)).thenReturn(account);
+    //when
+    mockMvc
+        .perform(post(URL_TEMPLATE)
+            .contentType(CONTENT_TYPE_JSON)
+            .content(accountAsJson))
+        .andDo(print())
+        //then
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+        .andExpect(content().string(accountAsJson));
+  }
 
   @Test
   @WithMockUser
