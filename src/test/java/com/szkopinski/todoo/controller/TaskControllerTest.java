@@ -5,15 +5,16 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.sun.tools.javac.util.List;
 import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.repository.AccountRepository;
-import com.szkopinski.todoo.repository.TaskRepository;
 import com.szkopinski.todoo.service.TaskService;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,9 +40,6 @@ class TaskControllerTest {
 
   @MockBean
   private TaskService taskService;
-
-  @MockBean
-  private TaskRepository taskRepository;
 
   @MockBean
   private AccountRepository accountRepository;
@@ -98,7 +96,7 @@ class TaskControllerTest {
 //  @DisplayName("Should add new task")
 //  void shouldAddNewTask() throws Exception {
 //    //given
-//    Task task = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16));
+//    Task task = new Task( "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
 //    String taskAsJson = convertToJson(task);
 //    when(taskService.addTask(task)).thenReturn(task);
 //    //when
@@ -109,8 +107,8 @@ class TaskControllerTest {
 //        .andDo(print())
 //        //then
 //        .andExpect(status().isOk())
-////        .andExpect(content().contentType(CONTENT_TYPE_JSON))
-//        .andExpect(content().string(taskAsJson));
+//        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+//        .andExpect(content().json(taskAsJson));
 //  }
 
   @Test
@@ -139,6 +137,7 @@ class TaskControllerTest {
 //    Task updatedTask = new Task("Updated Text", false, new ArrayList<>(), LocalDate.of(2019, 4, 13), LocalDate.of(2019, 5, 26));
 //    String updatedTaskAsJson = convertToJson(updatedTask);
 //    when(taskService.updateTask(taskId, updatedTask)).thenReturn(updatedTask);
+//
 //    //when
 //    mockMvc
 //        .perform(put(URL_TEMPLATE + taskId)
