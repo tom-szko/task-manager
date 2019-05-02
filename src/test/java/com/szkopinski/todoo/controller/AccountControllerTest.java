@@ -100,8 +100,8 @@ class AccountControllerTest {
     //when
     mockMvc
         .perform(post(URL_TEMPLATE)
-            .contentType(CONTENT_TYPE_JSON)
-            .content(accountAsJson))
+        .contentType(CONTENT_TYPE_JSON)
+        .content(accountAsJson))
         .andDo(print())
         //then
         .andExpect(status().isOk())
