@@ -8,7 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,25 +22,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-@JsonIgnoreProperties(value = "id", allowGetters = true)
 public class Account {
 
   @Id
-  @JsonProperty("id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @NotNull
+  @NotBlank
+  @Size(min = 3)
   private String userName;
 
-  @NotNull
+  @NotBlank
+  @Size(min = 3)
   @Column(length = 60)
+  @NotBlank
   private String password;
 
-  @NotNull
+  @NotBlank
+  @Email
   private String email;
 
-  public Account(@NotNull String userName, @NotNull String password, @NotNull String email) {
+  public Account(String userName, String password, String email) {
     this.userName = userName;
     this.password = password;
     this.email = email;

@@ -12,14 +12,17 @@ import io.swagger.annotations.ApiResponses;
 import java.util.Optional;
 import javax.validation.Valid;
 
+import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/tasks")
+@Validated
 @CrossOrigin
 @Api("/api/tasks")
 public class TaskController {
@@ -46,8 +49,8 @@ public class TaskController {
             @ApiResponse(code = 200, message = "Success", response = Task.class),
             @ApiResponse(code = 404, message = "Not found")
     })
-    public ResponseEntity getTask(@ApiParam(value = "Id of invoice to retrieve", required = true) @PathVariable("taskId") String taskId) {
-        Optional<Task> task = taskService.findTask(Integer.valueOf(taskId));
+    public ResponseEntity getTask(@ApiParam(value = "Id of invoice to retrieve", required = true) @Min(1) @PathVariable("taskId") int taskId) {
+        Optional<Task> task = taskService.findTask(taskId);
         if (task.isPresent()) {
             return ResponseEntity.ok(task);
         } else {
@@ -61,7 +64,7 @@ public class TaskController {
             @ApiResponse(code = 200, message = "Success", response = Task.class),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity addTask(@RequestBody @Valid Task task) {
+    public ResponseEntity addTask(@Valid @RequestBody Task task) {
         try {
             return ResponseEntity.ok(taskService.addTask(task));
         } catch (Exception e) {
@@ -75,9 +78,9 @@ public class TaskController {
             @ApiResponse(code = 204, message = "Success"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity deleteTask(@PathVariable("taskId") String taskId) {
+    public ResponseEntity deleteTask(@Min(1) @PathVariable("taskId") int taskId) {
         try {
-            taskService.deleteTask(Integer.valueOf(taskId));
+            taskService.deleteTask(taskId);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -90,9 +93,9 @@ public class TaskController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
-    public ResponseEntity updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody Task updatedTask) {
+    public ResponseEntity updateTask(@Min(1) @PathVariable("taskId") int taskId, @Valid @RequestBody Task updatedTask) {
         try {
-            Task newTask = taskService.updateTask(Integer.valueOf(taskId), updatedTask);
+            Task newTask = taskService.updateTask(taskId, updatedTask);
             if (newTask == null) {
                 return ResponseEntity.notFound().build();
             }
