@@ -2,6 +2,7 @@ package com.szkopinski.todoo.controller;
 
 import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,7 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.sun.tools.javac.util.List;
@@ -29,7 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(TaskController.class)
+@WebMvcTest(controllers = TaskController.class)
 class TaskControllerTest {
 
   private static final String URL_TEMPLATE = "/api/tasks/";
@@ -69,6 +69,8 @@ class TaskControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().json(tasksAsJson));
+
+    verify(taskService).findAllTasks();
   }
 
   @Test
@@ -89,27 +91,31 @@ class TaskControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().json(taskAsJson));
+
+    verify(taskService).findTask(taskId);
   }
 
-//  @Test
-//  @WithMockUser
-//  @DisplayName("Should add new task")
-//  void shouldAddNewTask() throws Exception {
-//    //given
-//    Task task = new Task( "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
-//    String taskAsJson = convertToJson(task);
-//    when(taskService.addTask(task)).thenReturn(task);
-//    //when
-//    mockMvc
-//        .perform(post(URL_TEMPLATE)
-//            .contentType(CONTENT_TYPE_JSON)
-//            .content(taskAsJson))
-//        .andDo(print())
-//        //then
-//        .andExpect(status().isOk())
-//        .andExpect(content().contentType(CONTENT_TYPE_JSON))
-//        .andExpect(content().json(taskAsJson));
-//  }
+  @Test
+  @WithMockUser
+  @DisplayName("Should add new task")
+  void shouldAddNewTask() throws Exception {
+    //given
+    Task task = new Task("Read Effective Java book", false, new ArrayList<>(), LocalDate.of(2019, 5, 14), LocalDate.of(2019, 8, 14));
+    String taskAsJson = convertToJson(task);
+    when(taskService.addTask(task)).thenReturn(task);
+    //when
+    mockMvc
+        .perform(post(URL_TEMPLATE)
+            .contentType(CONTENT_TYPE_JSON)
+            .content(taskAsJson))
+        .andDo(print())
+        //then
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+        .andExpect(content().json(taskAsJson));
+
+    verify(taskService).addTask(task);
+  }
 
   @Test
   @WithMockUser
@@ -126,27 +132,31 @@ class TaskControllerTest {
         .andDo(print())
         //then
         .andExpect(status().isNoContent());
+
+    verify(taskService).deleteTask(taskId);
   }
 
-//  @Test
-//  @WithMockUser
-//  @DisplayName("Should update task with given id number")
-//  void shouldUpdateTaskWithGivenIdNumber() throws Exception {
-//    //given
-//    int taskId = 1;
-//    Task updatedTask = new Task("Updated Text", false, new ArrayList<>(), LocalDate.of(2019, 4, 13), LocalDate.of(2019, 5, 26));
-//    String updatedTaskAsJson = convertToJson(updatedTask);
-//    when(taskService.updateTask(taskId, updatedTask)).thenReturn(updatedTask);
-//
-//    //when
-//    mockMvc
-//        .perform(put(URL_TEMPLATE + taskId)
-//            .contentType(CONTENT_TYPE_JSON)
-//            .content(updatedTaskAsJson))
-//        .andDo(print())
-//        //then
-//        .andExpect(status().isOk())
-//        .andExpect(content().contentType(CONTENT_TYPE_JSON))
-//        .andExpect(content().string(updatedTaskAsJson));
-//  }
+  @Test
+  @WithMockUser
+  @DisplayName("Should update task with given id number")
+  void shouldUpdateTaskWithGivenIdNumber() throws Exception {
+    //given
+    int taskId = 1;
+    Task updatedTask = new Task("Updated Text", false, new ArrayList<>(), LocalDate.of(2019, 4, 13), LocalDate.of(2019, 5, 26));
+    String updatedTaskAsJson = convertToJson(updatedTask);
+    when(taskService.updateTask(taskId, updatedTask)).thenReturn(updatedTask);
+
+    //when
+    mockMvc
+        .perform(put(URL_TEMPLATE + taskId)
+            .contentType(CONTENT_TYPE_JSON)
+            .content(updatedTaskAsJson))
+        .andDo(print())
+        //then
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+        .andExpect(content().string(updatedTaskAsJson));
+
+    verify(taskService).updateTask(taskId, updatedTask);
+  }
 }

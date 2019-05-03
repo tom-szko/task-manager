@@ -2,6 +2,8 @@ package com.szkopinski.todoo.controller;
 
 import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,7 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(AccountController.class)
+@WebMvcTest(controllers = AccountController.class)
 class AccountControllerTest {
 
   private static final String URL_TEMPLATE = "/api/accounts/";
@@ -66,6 +68,8 @@ class AccountControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().json(accountsAsJson));
+
+    verify(accountService).getAllAccounts();
   }
 
   @Test
@@ -87,6 +91,8 @@ class AccountControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().json(accountAsJson));
+
+    verify(accountService).getAccountById(accountId);
   }
 
   @Test
@@ -100,13 +106,15 @@ class AccountControllerTest {
     //when
     mockMvc
         .perform(post(URL_TEMPLATE)
-        .contentType(CONTENT_TYPE_JSON)
-        .content(accountAsJson))
+            .contentType(CONTENT_TYPE_JSON)
+            .content(accountAsJson))
         .andDo(print())
         //then
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().string(accountAsJson));
+
+    verify(accountService).addAccount(account);
   }
 
   @Test
@@ -124,6 +132,8 @@ class AccountControllerTest {
         .andDo(print())
         //then
         .andExpect(status().isNoContent());
+
+    verify(accountService).deleteAccount(accountId);
   }
 
   @Test
@@ -146,5 +156,53 @@ class AccountControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().string(updatedAccountAsJson));
+
+    verify(accountService).updateAccount(accountId, updatedAccount);
+  }
+
+  @Test
+  @WithMockUser
+  @DisplayName("Should return Not Found status when account id cannot be found")
+  void shouldReturnNotFoundWhenAccountIsNotFound() throws Exception {
+    //given
+    int accountId = 1;
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated_email");
+    String updatedAccountAsJson = convertToJson(updatedAccount);
+    when(accountService.updateAccount(accountId, updatedAccount)).thenReturn(null);
+
+    //when
+    mockMvc
+        .perform(put(URL_TEMPLATE + accountId)
+            .content(updatedAccountAsJson)
+            .contentType(CONTENT_TYPE_JSON))
+        .andDo(print())
+
+        //then
+        .andExpect(status().isNotFound());
+
+    verify(accountService).updateAccount(accountId, updatedAccount);
+  }
+
+  @Test
+  @WithMockUser
+  @DisplayName("Should return Internal Server Error status when exception is throw while updating account")
+  void shouldReturnInternalServerErrorWhenExceptionIsThrowOnAccountUpdate() throws Exception {
+    //given
+    int accountId = 1;
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated_email");
+    String updatedAccountAsJson = convertToJson(updatedAccount);
+    doThrow(NullPointerException.class).when(accountService).updateAccount(accountId, updatedAccount);
+
+    //when
+    mockMvc
+        .perform(put(URL_TEMPLATE + accountId)
+            .content(updatedAccountAsJson)
+            .contentType(CONTENT_TYPE_JSON))
+        .andDo(print())
+
+        //then
+        .andExpect(status().isInternalServerError());
+
+    verify(accountService).updateAccount(accountId, updatedAccount);
   }
 }
