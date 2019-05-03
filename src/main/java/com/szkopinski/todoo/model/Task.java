@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "Task model")
-@JsonIgnoreProperties(value = {"id", "creationDate"}, allowGetters = true)
 public class Task {
 
   @Id
@@ -43,7 +42,6 @@ public class Task {
   @OneToMany(cascade = CascadeType.ALL)
   private List<ChecklistItem> checklist;
 
-  @JsonProperty("creationDate")
   @ApiModelProperty(dataType = "java.sql.Date", notes = "Date format should be YYYY-MM-DD", example = "2019-04-22")
   private LocalDate creationDate;
 

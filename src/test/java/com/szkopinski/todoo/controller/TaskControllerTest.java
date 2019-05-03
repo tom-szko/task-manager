@@ -1,32 +1,35 @@
 package com.szkopinski.todoo.controller;
 
 import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.sun.tools.javac.util.List;
 import com.szkopinski.todoo.model.Task;
+import com.szkopinski.todoo.repository.AccountRepository;
 import com.szkopinski.todoo.service.TaskService;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@WebMvcTest(controllers = TaskController.class)
 class TaskControllerTest {
 
   private static final String URL_TEMPLATE = "/api/tasks/";
@@ -35,49 +38,71 @@ class TaskControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @Autowired
+  @MockBean
   private TaskService taskService;
 
+  @MockBean
+  private AccountRepository accountRepository;
+
+  @MockBean
+  private PasswordEncoder passwordEncoder;
+
   @Test
-  @DisplayName("Should retrieve all tasks present in the database")
   @WithMockUser
+  @DisplayName("Should return all tasks")
   void shouldReturnAllTasks() throws Exception {
+
+    //given
+    Task task1 = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16));
+    Task task2 = new Task("Some text2", false, new ArrayList<>(), LocalDate.of(2019, 4, 4), LocalDate.of(2019, 5, 20));
+    Task task3 = new Task("Some text3", false, new ArrayList<>(), LocalDate.of(2019, 4, 5), LocalDate.of(2019, 5, 22));
+    Iterable<Task> tasks = List.of(task1, task2, task3);
+    String tasksAsJson = convertToJson(tasks);
+    when(taskService.findAllTasks()).thenReturn(tasks);
+
     //when
     mockMvc
-        .perform(get(URL_TEMPLATE))
+        .perform(get(URL_TEMPLATE)
+            .accept(CONTENT_TYPE_JSON))
         .andDo(print())
         //then
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
-        .andExpect(content().json("[]"));
+        .andExpect(content().json(tasksAsJson));
+
+    verify(taskService).findAllTasks();
   }
 
   @Test
-  @DisplayName("Should retrieve task with given id number")
   @WithMockUser
-  void shouldReturnTaskById() throws Exception {
+  @DisplayName("Should return task with given Id number")
+  void shouldReturnTaskWithGivenId() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
-    taskService.addTask(task);
+    Task task = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16));
+    String taskAsJson = convertToJson(task);
+    when(taskService.findTask(taskId)).thenReturn(Optional.of(task));
     //when
     mockMvc
-        .perform(get(URL_TEMPLATE + taskId))
+        .perform(get(URL_TEMPLATE + taskId)
+            .accept(CONTENT_TYPE_JSON))
         .andDo(print())
         //then
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
-        .andExpect(content().json(convertToJson(task)));
+        .andExpect(content().json(taskAsJson));
+
+    verify(taskService).findTask(taskId);
   }
 
   @Test
-  @DisplayName("Should add single task to database")
   @WithMockUser
+  @DisplayName("Should add new task")
   void shouldAddNewTask() throws Exception {
     //given
-    int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task("Read Effective Java book", false, new ArrayList<>(), LocalDate.of(2019, 5, 14), LocalDate.of(2019, 8, 14));
     String taskAsJson = convertToJson(task);
+    when(taskService.addTask(task)).thenReturn(task);
     //when
     mockMvc
         .perform(post(URL_TEMPLATE)
@@ -87,25 +112,51 @@ class TaskControllerTest {
         //then
         .andExpect(status().isOk())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
-        .andExpect(jsonPath("$.contents").value(task.getContents()))
-        .andExpect(jsonPath("$.completed").value(task.isCompleted()));
+        .andExpect(content().json(taskAsJson));
+
+    verify(taskService).addTask(task);
   }
 
   @Test
-  @DisplayName("Should remove single task from database")
   @WithMockUser
-  void shouldRemoveSingleTask() throws Exception {
+  @DisplayName("Should delete task with given id")
+  void shouldDeleteTaskWithGivenId() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
-    taskService.addTask(task);
+    doNothing().when(taskService).deleteTask(taskId);
+
     //when
     mockMvc
-        .perform(delete(URL_TEMPLATE + taskId))
+        .perform(delete(URL_TEMPLATE + taskId)
+            .accept(CONTENT_TYPE_JSON))
         .andDo(print())
         //then
         .andExpect(status().isNoContent());
 
-    assertFalse(taskService.findTask(taskId).isPresent());
+    verify(taskService).deleteTask(taskId);
+  }
+
+  @Test
+  @WithMockUser
+  @DisplayName("Should update task with given id number")
+  void shouldUpdateTaskWithGivenIdNumber() throws Exception {
+    //given
+    int taskId = 1;
+    Task updatedTask = new Task("Updated Text", false, new ArrayList<>(), LocalDate.of(2019, 4, 13), LocalDate.of(2019, 5, 26));
+    String updatedTaskAsJson = convertToJson(updatedTask);
+    when(taskService.updateTask(taskId, updatedTask)).thenReturn(updatedTask);
+
+    //when
+    mockMvc
+        .perform(put(URL_TEMPLATE + taskId)
+            .contentType(CONTENT_TYPE_JSON)
+            .content(updatedTaskAsJson))
+        .andDo(print())
+        //then
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+        .andExpect(content().string(updatedTaskAsJson));
+
+    verify(taskService).updateTask(taskId, updatedTask);
   }
 }

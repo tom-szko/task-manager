@@ -52,7 +52,7 @@ public class AccountController {
     return ResponseEntity.noContent().build();
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{accountId}")
   @ApiOperation(value = "Updates an account", notes = "Updates and account")
   public ResponseEntity updateAccount(@PathVariable("accountId") String accountId, @Valid @RequestBody Account updatedAccount) {
     try {
