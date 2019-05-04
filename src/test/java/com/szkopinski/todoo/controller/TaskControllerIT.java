@@ -85,7 +85,7 @@ class TaskControllerIT {
             .content(taskAsJson))
         .andDo(print())
         //then
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(jsonPath("$.contents").value(task.getContents()))
         .andExpect(jsonPath("$.completed").value(task.isCompleted()));

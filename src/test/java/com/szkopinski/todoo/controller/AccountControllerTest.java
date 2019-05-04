@@ -110,7 +110,7 @@ class AccountControllerTest {
             .content(accountAsJson))
         .andDo(print())
         //then
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().string(accountAsJson));
 
@@ -142,7 +142,7 @@ class AccountControllerTest {
   void shouldUpdateAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Account updatedAccount = new Account("updated_user", "updated_password", "updated_email");
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com");
     String updatedAccountAsJson = convertToJson(updatedAccount);
     when(accountService.updateAccount(accountId, updatedAccount)).thenReturn(updatedAccount);
 
@@ -166,7 +166,7 @@ class AccountControllerTest {
   void shouldReturnNotFoundWhenAccountIsNotFound() throws Exception {
     //given
     int accountId = 1;
-    Account updatedAccount = new Account("updated_user", "updated_password", "updated_email");
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com");
     String updatedAccountAsJson = convertToJson(updatedAccount);
     when(accountService.updateAccount(accountId, updatedAccount)).thenReturn(null);
 
@@ -189,7 +189,7 @@ class AccountControllerTest {
   void shouldReturnInternalServerErrorWhenExceptionIsThrowOnAccountUpdate() throws Exception {
     //given
     int accountId = 1;
-    Account updatedAccount = new Account("updated_user", "updated_password", "updated_email");
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com");
     String updatedAccountAsJson = convertToJson(updatedAccount);
     doThrow(NullPointerException.class).when(accountService).updateAccount(accountId, updatedAccount);
 
@@ -204,5 +204,22 @@ class AccountControllerTest {
         .andExpect(status().isInternalServerError());
 
     verify(accountService).updateAccount(accountId, updatedAccount);
+  }
+
+  @Test
+  @WithMockUser
+  @DisplayName("Should return Bad Request status when invalid id is passed as parameter for deleteAccount")
+  void shouldReturnBadRequestOnDeleteAccount() throws Exception {
+    //given
+    int accountId = 0;
+    doNothing().when(accountService).deleteAccount(accountId);
+
+    //when
+    mockMvc
+        .perform(delete(URL_TEMPLATE + accountId)
+            .accept(CONTENT_TYPE_JSON))
+        .andDo(print())
+        //then
+        .andExpect(status().isBadRequest());
   }
 }

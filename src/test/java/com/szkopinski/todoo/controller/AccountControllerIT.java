@@ -105,7 +105,7 @@ class AccountControllerIT {
             .content(accountAsJson))
         .andDo(print())
         //then
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(jsonPath("$.userName").value("john_doe"))
         .andExpect(jsonPath("$.email").value("john@doe.com"));
@@ -140,7 +140,7 @@ class AccountControllerIT {
   @WithMockUser
   void shouldReturnNotFoundWhenBadIdProvidedOnAccountRetrieval() throws Exception {
     //given
-    int accountId = -1;
+    int accountId = 100;
 
     //when
     mockMvc
@@ -155,7 +155,7 @@ class AccountControllerIT {
   @WithMockUser
   void shouldReturnNotFoundWhenBadIdProvidedOnAccountUpdate() throws Exception {
     //given
-    int accountId = -1;
+    int accountId = 100;
     Account account = new Account("John Doe", "password", "john@doe.com");
     Account savedAccount = accountService.addAccount(account);
     Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
