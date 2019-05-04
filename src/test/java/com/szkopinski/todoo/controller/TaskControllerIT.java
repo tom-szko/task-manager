@@ -58,7 +58,7 @@ class TaskControllerIT {
   void shouldReturnTaskById() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), "user");
     taskService.addTask(task);
     //when
     mockMvc
@@ -76,7 +76,7 @@ class TaskControllerIT {
   void shouldAddNewTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), "user");
     String taskAsJson = convertToJson(task);
     //when
     mockMvc
@@ -97,7 +97,7 @@ class TaskControllerIT {
   void shouldRemoveSingleTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), "user");
     taskService.addTask(task);
     //when
     mockMvc

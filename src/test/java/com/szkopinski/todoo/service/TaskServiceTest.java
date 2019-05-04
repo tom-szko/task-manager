@@ -36,7 +36,7 @@ class TaskServiceTest {
   @DisplayName("Should return saved task when addTask gets invoked")
   void shouldReturnAddedTask() {
     //given
-    Task task = new Task(1, "Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 05, 05));
+    Task task = new Task(1, "Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5), "user");
     when(repository.save(task)).thenReturn(task);
 
     //when
@@ -80,8 +80,8 @@ class TaskServiceTest {
   void shouldReturnAllTasks() {
     //given
     List<Task> tasks = new ArrayList<>();
-    Task task1 = new Task(1, "Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5));
-    Task task2 = new Task(2, "Some title 2", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 6));
+    Task task1 = new Task(1, "Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5), "user");
+    Task task2 = new Task(2, "Some title 2", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 6), "user");
     tasks.add(task1);
     tasks.add(task2);
 
@@ -101,8 +101,8 @@ class TaskServiceTest {
   void shouldUpdateExistingTask() {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5));
-    Task updatedTask = new Task(taskId, "Updated title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 20));
+    Task task = new Task(taskId, "Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5), "user");
+    Task updatedTask = new Task(taskId, "Updated title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 20), "user");
     when(repository.findById(taskId)).thenReturn(Optional.of(task));
 
     //when
