@@ -110,7 +110,7 @@ class AccountControllerTest {
             .content(accountAsJson))
         .andDo(print())
         //then
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andExpect(content().contentType(CONTENT_TYPE_JSON))
         .andExpect(content().string(accountAsJson));
 
