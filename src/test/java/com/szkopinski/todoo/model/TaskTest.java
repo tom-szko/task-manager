@@ -17,7 +17,7 @@ class TaskTest {
     List<ChecklistItem> checklist = new ArrayList<>();
     LocalDate creationDate = LocalDate.of(2019, 4, 19);
     LocalDate deadline = LocalDate.of(2019, 5, 19);
-    String userName = "user";
+    UserName userName = new UserName("user");
 
     //when
     Task task = new Task(contents, completed, checklist, creationDate, deadline, userName);

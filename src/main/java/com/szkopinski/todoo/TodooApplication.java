@@ -26,5 +26,8 @@ public class TodooApplication implements CommandLineRunner {
     Account account1 = new Account("admin", passwordEncoder.encode("password"), "admin@szkopinski.com");
     accountService.save(account1);
     System.out.println(account1.toString());
+    Account account2 = new Account("tyler", passwordEncoder.encode("password"), "tyler@email.com");
+    accountService.save(account2);
+    System.out.println(account2.toString());
   }
 }

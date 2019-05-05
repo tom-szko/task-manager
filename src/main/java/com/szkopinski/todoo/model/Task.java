@@ -56,9 +56,9 @@ public class Task {
   @NotNull
   @ManyToOne(cascade = CascadeType.ALL)
   @ApiModelProperty(name = "account", dataType = "String", example = "john_doe123")
-  private String userName;
+  private UserName userName;
 
-  public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline, String userName) {
+  public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline, UserName userName) {
     this.contents = contents;
     this.completed = completed;
     this.checklist = checklist;
@@ -67,4 +67,3 @@ public class Task {
     this.userName = userName;
   }
 }
-
