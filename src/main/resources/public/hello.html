@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="taskController.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" type="text/css" href="external/pretty-checkbox.min.css" />
+    <title>
+      Todoo - a simple task manager
+    </title>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <p>Todoo - a simple task manager</p>
+      </div>
+    </header>
+    <main>
+      <div class="input-container">
+        <form>
+          <input
+            class="task-input-field"
+            type="text"
+            placeholder="Type something and press Enter..."
+          />
+          <input class="task-add-btn" type="button" value="+" />
+        </form>
+      <div class="task-list-container">
+        <div class="task-line" ng-repeat="task in tasks">
+          <div class="pretty p-icon p-round p-pulse">
+          <input type="checkbox" ng-model="task.finished"/>
+            <div class="state p-primary-o">
+              <i class="icon mdi mdi-check"></i>
+              <label>some text</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
