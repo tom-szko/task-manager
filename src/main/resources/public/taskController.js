@@ -21,32 +21,32 @@ app.controller("taskController", function($scope, $http) {
     );
   }
 
-    function addTask() {
-      $http({
-        method: "POST",
-        url: baseUrl + "/tasks",
-        data: {
-          checklist: [],
-          completed: false,
-          contents: $scope.taskToAdd,
-          creationDate: "2019-04-22",
-          deadline: "2019-04-22",
-          userName: "admin"
-        }
-      }).then(
-        function success() {
-          console.log("successfully added new task");
-          getAllItems();
-        },
-        function error(response) {
-          alert(response.statusText);
-        }
-      );
-      clearTodoField();
-    }
-
-      function clearTodoField() {
-        $scope.taskToAdd = "";
+  function addTask() {
+    $http({
+      method: "POST",
+      url: baseUrl + "/tasks",
+      data: {
+        checklist: [],
+        completed: false,
+        contents: $scope.taskToAdd,
+        creationDate: "2019-04-22",
+        deadline: "2019-04-22",
+        userName: "admin"
       }
+    }).then(
+      function success() {
+        console.log("successfully added new task");
+        getAllItems();
+      },
+      function error(response) {
+        alert(response.statusText);
+      }
+    );
+    clearTodoField();
+  }
+
+    function clearTodoField() {
+      $scope.taskToAdd = "";
+    }
 
 });

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="todooApp">
   <head>
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-      <script src="taskController.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="taskController.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css" />
@@ -14,7 +14,7 @@
   <body ng-controller="taskController">
     <header>
       <div class="header-container">
-        <p>Todoo - a simple task manager</p>
+        <img src="images/app_logo.png" alt="Todoo logo">
       </div>
     </header>
     <main>
@@ -26,7 +26,7 @@
             placeholder="Type something and press Enter..."
             ng-model="taskToAdd"
           />
-          <input class="task-add-btn" type="button" value="+"/>
+          <input class="task-add-btn" type="submit" value="+"/>
         </form>
       <div class="task-list-container">
         <div class="task-line" ng-repeat="task in tasks">
