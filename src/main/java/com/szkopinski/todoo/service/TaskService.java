@@ -2,7 +2,10 @@ package com.szkopinski.todoo.service;
 
 import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.repository.TaskRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,14 @@ public class TaskService {
 
   public Iterable<Task> findAllTasks() {
     return taskRepository.findAll();
+  }
+
+  public List<Task> findAllTasksByUserName(String userName) {
+    List<Task> tasks = new ArrayList<>();
+    findAllTasks().forEach(tasks::add);
+    return tasks.stream()
+        .filter(task -> task.getUserName().getName().equals(userName))
+        .collect(Collectors.toList());
   }
 
   @Transactional

@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -52,12 +53,17 @@ public class Task {
   @ApiModelProperty(dataType = "java.sql.Date", notes = "Date format should be YYYY-MM-DD", example = "2019-04-22")
   private LocalDate deadline;
 
-  public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline) {
+  @NotNull
+  @ManyToOne(cascade = CascadeType.ALL)
+  @ApiModelProperty(name = "account", dataType = "String", example = "john_doe123")
+  private UserName userName;
+
+  public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline, UserName userName) {
     this.contents = contents;
     this.completed = completed;
     this.checklist = checklist;
     this.creationDate = creationDate;
     this.deadline = deadline;
+    this.userName = userName;
   }
 }
-

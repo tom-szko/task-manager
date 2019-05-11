@@ -10,9 +10,11 @@ import io.swagger.annotations.ApiResponses;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,12 +25,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("api/tasks")
+@RequestMapping("api/")
 @Validated
 @CrossOrigin
-@Api("/api/tasks")
+@Api("/api/")
 public class TaskController {
 
   private TaskService taskService;
@@ -38,7 +41,7 @@ public class TaskController {
     this.taskService = taskService;
   }
 
-  @GetMapping
+  @GetMapping("tasks")
   @ApiOperation(value = "Finds all tasks", notes = "Retrieving the collection of tasks", response = Task[].class)
   @ApiResponses( {
       @ApiResponse(code = 200, message = "Success", response = Task[].class)
@@ -47,7 +50,20 @@ public class TaskController {
     return ResponseEntity.ok(taskService.findAllTasks());
   }
 
-  @GetMapping("/{taskId}")
+  @GetMapping("/{userName}/tasks")
+  @ApiOperation(value = "Finds all tasks for logged in user", notes = "Retrieving the collection of tasks for current user name", response =
+      Task[].class)
+  @ApiResponses( {
+      @ApiResponse(code = 200, message = "Success", response = Task[].class)
+  })
+  public ResponseEntity<Iterable<Task>> getAllTasksForCurrentUser(@ApiIgnore Authentication authentication,
+      @PathVariable("userName") String userName) {
+    if (authentication.getName().equals(userName)) {
+      return ResponseEntity.ok(taskService.findAllTasksByUserName(userName));
+    } return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+  }
+
+  @GetMapping("tasks/{taskId}")
   @ApiOperation(value = "Finds single task", notes = "Retrieves a single task", response = Task.class)
   @ApiResponses( {
       @ApiResponse(code = 200, message = "Success", response = Task.class),
@@ -62,7 +78,7 @@ public class TaskController {
     }
   }
 
-  @PostMapping
+  @PostMapping("tasks")
   @ApiOperation(value = "Adds single task", notes = "Adds a single task")
   @ApiResponses( {
       @ApiResponse(code = 200, message = "Success", response = Task.class),
@@ -76,7 +92,7 @@ public class TaskController {
     }
   }
 
-  @DeleteMapping("/{taskId}")
+  @DeleteMapping("tasks/{taskId}")
   @ApiOperation(value = "Removes single task", notes = "Removes a single task")
   @ApiResponses( {
       @ApiResponse(code = 204, message = "Success"),
@@ -91,7 +107,7 @@ public class TaskController {
     }
   }
 
-  @PutMapping("/{taskId}")
+  @PutMapping("tasks/{taskId}")
   @ApiOperation(value = "Updates single task", notes = "Updates a single task")
   @ApiResponses( {
       @ApiResponse(code = 200, message = "Success"),

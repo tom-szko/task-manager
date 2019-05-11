@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.szkopinski.todoo.model.Task;
+import com.szkopinski.todoo.model.UserName;
 import com.szkopinski.todoo.service.TaskService;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ class TaskControllerIT {
   void shouldReturnTaskById() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), new UserName("user"));
     taskService.addTask(task);
     //when
     mockMvc
@@ -76,7 +77,7 @@ class TaskControllerIT {
   void shouldAddNewTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), new UserName("user"));
     String taskAsJson = convertToJson(task);
     //when
     mockMvc
@@ -97,7 +98,7 @@ class TaskControllerIT {
   void shouldRemoveSingleTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), new UserName("user"));
     taskService.addTask(task);
     //when
     mockMvc

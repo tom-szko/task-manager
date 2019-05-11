@@ -16,26 +16,26 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfiguration {
 
   @Bean
-  public Docket tasksApi() {
+  public Docket apiGroup() {
     return new Docket(DocumentationType.SWAGGER_2)
         .groupName("tasks-api")
         .useDefaultResponseMessages(false)
         .apiInfo(apiInfo())
         .select()
-        .paths(regex("/api/tasks.*"))
+        .paths(regex("/api.*"))
         .build();
   }
 
-  @Bean
-  public Docket accountsApi() {
-    return new Docket(DocumentationType.SWAGGER_2)
-        .groupName("accounts-api")
-        .useDefaultResponseMessages(false)
-        .apiInfo(apiInfo())
-        .select()
-        .paths(regex("/api/accounts.*"))
-        .build();
-  }
+//  @Bean
+//  public Docket accountsApi() {
+//    return new Docket(DocumentationType.SWAGGER_2)
+//        .groupName("accounts-api")
+//        .useDefaultResponseMessages(false)
+//        .apiInfo(apiInfo())
+//        .select()
+//        .paths(regex("/api/accounts.*"))
+//        .build();
+//  }
 
   @Bean
   public UiConfiguration uiConfig() {
