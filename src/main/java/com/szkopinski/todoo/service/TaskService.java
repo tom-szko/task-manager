@@ -2,6 +2,7 @@ package com.szkopinski.todoo.service;
 
 import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.repository.TaskRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +25,7 @@ public class TaskService {
 
   @Transactional
   public Task addTask(@NonNull Task task) {
+    task.setCreationDate(LocalDate.now());
     return taskRepository.save(task);
   }
 
@@ -36,7 +39,8 @@ public class TaskService {
   }
 
   public Iterable<Task> findAllTasks() {
-    return taskRepository.findAll();
+    Sort sortByCreationDate = new Sort(Sort.Direction.DESC, "creationDate");
+    return taskRepository.findAll(sortByCreationDate);
   }
 
   public List<Task> findAllTasksByUserName(String userName) {

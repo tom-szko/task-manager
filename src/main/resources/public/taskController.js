@@ -29,7 +29,7 @@ app.controller("taskController", function($scope, $http) {
         checklist: [],
         completed: false,
         contents: $scope.taskToAdd,
-        creationDate: "2019-04-22",
+        creationDate: new Date(),
         deadline: "2019-04-22",
         userName: "admin"
       }
@@ -49,4 +49,40 @@ app.controller("taskController", function($scope, $http) {
       $scope.taskToAdd = "";
     }
 
+    $scope.markTask = function(x) {
+        !$scope.tasks[x].completed;
+        $http({
+          method: "PUT",
+          url: baseUrl + "/tasks/" + $scope.tasks[x].id,
+          data: {
+            checklist: $scope.tasks[x].checklist,
+            completed: $scope.tasks[x].completed,
+            contents: $scope.tasks[x].contents,
+            creationDate: $scope.tasks[x].creationDate,
+            deadline: $scope.tasks[x].deadline,
+            userName: $scope.tasks[x].userName
+          }
+        }).then(
+          function success() {
+            getAllItems();
+          },
+          function error(response) {
+            alert(response.statusText);
+          }
+        );
+    };
+
+    $scope.deleteTask = function(x) {
+            $http({
+              method: "DELETE",
+              url: baseUrl + "/tasks/" + $scope.tasks[x].id
+            }).then(
+              function success() {
+                getAllItems();
+              },
+              function error(response) {
+                alert(response.statusText);
+              }
+            );
+        };
 });
