@@ -11,13 +11,12 @@
 html {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 300;
-  font-size: 20px;
   color: rgb(140, 140, 140);
   font-weight: 300;
   text-rendering: optimizeLegibility;
 }
 
-.task-input-field {
+.input-field {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 20px;
   color: rgb(133, 139, 144);
@@ -32,22 +31,33 @@ html {
   margin-right: 15px;
 }
 
-.task-add-btn {
+.btn {
   border: 0;
   background-color: rgb(70, 136, 241);
   border-radius: 50px;
-  width: 65px;
-  height: 65px;
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 180%;
   color: rgb(255, 255, 255);
-  float: left;
   transition: background-color 0.3s;
   cursor: pointer;
 }
 
-.task-add-btn:hover {
+.btn:hover {
   background-color: rgb(231, 69, 60);
+}
+
+.submit-btn {
+    font-size: 20px;
+    height: 65px;
+    width: 250px;
+    display: block;
+    margin: 0 auto 0 auto;
+}
+
+.task-add-btn {
+  font-size: 180%;
+  width: 65px;
+  height: 65px;
+  float: left;
 }
 
 .input-container {
@@ -100,14 +110,35 @@ input::placeholder {
   color: rgb(84, 152, 212);
 }
 
-.empty-list-text {
+.empty-list-box {
   width: 780px;
   margin: 50px auto 50px auto;
   text-align: center;
   float: left;
 }
 
-.empty-list-text img {
+.empty-list-box img {
   width: auto;
   margin-top: 50px;
+}
+
+.login-form-container {
+    width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-field {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 20px;
+  color: rgb(133, 139, 144);
+  height: 65px;
+  border: 0;
+  border-radius: 50px;
+  background-color: rgb(241, 243, 244);
+  text-indent: 30px;
+  float: left;
+  width: 780px;
+  padding-right: 30px;
+  margin-bottom: 50px;
 }

@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiResponses;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +59,8 @@ public class TaskController {
       @PathVariable("userName") String userName) {
     if (authentication.getName().equals(userName)) {
       return ResponseEntity.ok(taskService.findAllTasksByUserName(userName));
-    } return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
   }
 
   @GetMapping("tasks/{taskId}")
