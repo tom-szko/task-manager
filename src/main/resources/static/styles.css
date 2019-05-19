@@ -147,6 +147,13 @@ a {
 color: rgb(70, 136, 241);
 }
 
-footer {
-float: left;
+.user-info {
+  float: right;
+  text-align: right;
+}
+
+.todo-logo {
+  display: block;
+  float: left;
+  margin-bottom: 50px;
 }

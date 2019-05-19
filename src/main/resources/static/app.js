@@ -3,8 +3,23 @@ var baseUrl = "/api";
 
 app.controller("taskController", function($scope, $http) {
 
-  document.querySelector(".task-add-btn").addEventListener("click", addTask);
+  getUserName();
   getAllItems();
+
+  function getUserName() {
+    console.log("getting user name");
+        $http({
+          method: "GET",
+          url: baseUrl + "/user"
+        }).then(
+          function success(response) {
+            $scope.username = response.data.name;
+          },
+          function error(response) {
+            alert(response.statusText);
+          }
+        );
+  }
 
   function getAllItems() {
     console.log("retrieved records from DB");
@@ -21,7 +36,7 @@ app.controller("taskController", function($scope, $http) {
     );
   }
 
-  function addTask() {
+  $scope.addTask = function() {
     $http({
       method: "POST",
       url: baseUrl + "/tasks",
@@ -100,10 +115,9 @@ app.controller("taskController", function($scope, $http) {
 
 app.controller("securityController", function($scope, $http) {
 
-  document.querySelector(".submit-btn").addEventListener("click", login);
   $scope.credentials = {};
 
-  function login() {
+  $scope.login = function() {
   console.log("login fired")
     $http({
     method: "GET",
@@ -111,7 +125,6 @@ app.controller("securityController", function($scope, $http) {
     headers: {"Authorization": "Basic " + btoa($scope.credentials.username + ":" + $scope.credentials.password)
     }}).then(
              function success(response) {
-               console.log("success");
                window.location.href = "/home.html";
              },
              function error(response) {
