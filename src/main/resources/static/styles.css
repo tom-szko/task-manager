@@ -142,3 +142,11 @@ input::placeholder {
   padding-right: 30px;
   margin-bottom: 50px;
 }
+
+a {
+color: rgb(70, 136, 241);
+}
+
+footer {
+float: left;
+}

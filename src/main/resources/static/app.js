@@ -1,6 +1,4 @@
-var app = angular.module("todooApp", []).config(function($httpProvider) {
-$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-});
+var app = angular.module("todooApp", []);
 var baseUrl = "/api";
 
 app.controller("taskController", function($scope, $http) {
@@ -87,6 +85,17 @@ app.controller("taskController", function($scope, $http) {
       }
     );
   };
+
+  $scope.logout = function() {
+    $http.post("/logout", {})
+    .then(function success() {
+    window.location.href = "/";
+    },
+    function error(response) {
+      alert(response.statusText);
+     }
+    );
+  }
 });
 
 app.controller("securityController", function($scope, $http) {
@@ -103,7 +112,7 @@ app.controller("securityController", function($scope, $http) {
     }}).then(
              function success(response) {
                console.log("success");
-               window.location.href = "/"
+               window.location.href = "/home.html";
              },
              function error(response) {
                alert(response.statusText);

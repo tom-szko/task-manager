@@ -27,7 +27,7 @@ public class SwaggerConfiguration {
   }
 
 //  @Bean
-//  public Docket accountsApi() {
+//  static Docket accountsApi() {
 //    return new Docket(DocumentationType.SWAGGER_2)
 //        .groupName("accounts-api")
 //        .useDefaultResponseMessages(false)
