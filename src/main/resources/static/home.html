@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="todooApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="app.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link
+        href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <link
+        href="external/pretty-checkbox.min.css"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <title>
+      Todoo - a simple task manager
+    </title>
+  </head>
+  <body ng-controller="taskController">
+    <header>
+      <div class="header-container">
+        <img alt="Todoo logo" src="images/app_logo.png"/>
+      </div>
+    </header>
+    <main>
+      <div class="input-container">
+        <form>
+          <input
+              class="input-field"
+              type="text"
+              placeholder="Type something and press Enter..."
+              ng-model="taskToAdd"
+          />
+          <input class="btn task-add-btn" type="submit" value="+"/>
+        </form>
+        <div class="empty-list-box" ng-if="tasks && tasks.length == 0">
+          <p>Hurray! It seems that there's nothing left to do.</p>
+          <img src="images/happy_face.png"/>
+        </div>
+        <div class="task-list-container">
+          <div class="task-line" ng-repeat="task in tasks track by task.id">
+            <div class="pretty p-icon p-round">
+              <input
+                  ng-click="markTask($index)"
+                  ng-model="task.completed"
+                  type="checkbox"
+              />
+              <div class="state p-primary-o">
+                <i class="icon mdi mdi-check"></i>
+                <label>{{ task.contents }}</label>
+              </div>
+            </div>
+            <div class="func-icon">
+              <i class="icon mdi mdi-close" ng-click="deleteTask($index)"></i>
+            </div>
+            <div class="func-icon">
+              <i class="icon mdi mdi-view-headline"></i>
+            </div>
+            <div class="func-icon">
+              <i class="icon mdi mdi-circle-edit-outline"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer><a href="" ng-click="logout()">Logout</a></footer>
+  </body>
+</html>

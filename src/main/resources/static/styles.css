@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+html {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 300;
+  color: rgb(140, 140, 140);
+  font-weight: 300;
+  text-rendering: optimizeLegibility;
+}
+
+.input-field {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 20px;
+  color: rgb(133, 139, 144);
+  height: 65px;
+  border: 0;
+  border-radius: 50px;
+  background-color: rgb(241, 243, 244);
+  text-indent: 30px;
+  float: left;
+  width: 700px;
+  padding-right: 30px;
+  margin-right: 15px;
+}
+
+.btn {
+  border: 0;
+  background-color: rgb(70, 136, 241);
+  border-radius: 50px;
+  font-family: "Source Sans Pro", sans-serif;
+  color: rgb(255, 255, 255);
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: rgb(231, 69, 60);
+}
+
+.submit-btn {
+    font-size: 20px;
+    height: 65px;
+    width: 250px;
+    display: block;
+    margin: 0 auto 0 auto;
+}
+
+.task-add-btn {
+  font-size: 180%;
+  width: 65px;
+  height: 65px;
+  float: left;
+}
+
+.input-container {
+  width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-container {
+  width: 780px;
+  margin: 50px auto 50px auto;
+  text-align: center;
+}
+
+.task-list-container {
+  width: 780px;
+  margin-top: 30px;
+  float: left;
+}
+
+.task-line {
+  width: 100%;
+  float: left;
+  border-radius: 50px;
+  padding: 10px 10px 10px 15px;
+  transition: background-color 0.3s;
+}
+
+.task-checkbox {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.task-line:hover {
+  background-color: rgb(242, 248, 255);
+  border-radius: 50px;
+}
+
+input::placeholder {
+  color: rgb(172, 176, 180);
+}
+
+.func-icon {
+  float: right;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.func-icon:hover {
+  color: rgb(84, 152, 212);
+}
+
+.empty-list-box {
+  width: 780px;
+  margin: 50px auto 50px auto;
+  text-align: center;
+  float: left;
+}
+
+.empty-list-box img {
+  width: auto;
+  margin-top: 50px;
+}
+
+.login-form-container {
+    width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-field {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 20px;
+  color: rgb(133, 139, 144);
+  height: 65px;
+  border: 0;
+  border-radius: 50px;
+  background-color: rgb(241, 243, 244);
+  text-indent: 30px;
+  float: left;
+  width: 780px;
+  padding-right: 30px;
+  margin-bottom: 50px;
+}
+
+a {
+color: rgb(70, 136, 241);
+}
+
+footer {
+float: left;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="todooApp">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+  <script src="app.js"></script>
+  <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400"
+      rel="stylesheet"
+  />
+  <link href="styles.css" rel="stylesheet" type="text/css"/>
+  <link
+      href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css"
+      rel="stylesheet"
+      type="text/css"
+  />
+  <link
+      href="external/pretty-checkbox.min.css"
+      rel="stylesheet"
+      type="text/css"
+  />
+  <title>
+    Todoo - a simple task manager
+  </title>
+</head>
+<header>
+  <div class="header-container">
+    <img alt="Todoo logo" src="images/app_logo.png"/>
+  </div>
+</header>
+<body ng-controller="securityController">
+<div class="login-form-container">
+  <form role="form">
+    <input class="login-field" ng-model="credentials.username" placeholder="Username" spellcheck="false" type="text"/>
+    <input class="login-field" ng-model="credentials.password" placeholder="Password" type="password"/>
+    <input class="btn submit-btn " type="submit" value="Sign in"/>
+  </form>
+</div>
+</body>
+</html>

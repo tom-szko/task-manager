@@ -12,18 +12,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
+        .httpBasic()
+        .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
+        .and()
         .authorizeRequests()
-        .antMatchers("/").permitAll()
+        .antMatchers("/*.js", "/*.css", "/images/*.png").permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin()
-        .loginPage("/login")
+        .loginPage("/login.html")
         .permitAll()
         .and()
         .logout()
-        .permitAll().permitAll()
-        .and()
-        .httpBasic()
+        .permitAll()
         .and()
         .csrf().disable();
   }
