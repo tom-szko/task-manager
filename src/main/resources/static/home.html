@@ -25,7 +25,10 @@
   <body ng-controller="taskController">
     <header>
       <div class="header-container">
-        <img alt="Todoo logo" src="images/app_logo.png"/>
+        <img alt="Todoo logo" class="todo-logo" src="images/app_logo.png"/>
+        <div class="user-info">
+          Logged in as <b> {{ username }}</b> .<a class="logout-link" href="" ng-click="logout()">Logout</a>
+        </div>
       </div>
     </header>
     <main>
@@ -37,7 +40,7 @@
               placeholder="Type something and press Enter..."
               ng-model="taskToAdd"
           />
-          <input class="btn task-add-btn" type="submit" value="+"/>
+          <input class="btn task-add-btn" ng-click="addTask()" type="submit" value="+"/>
         </form>
         <div class="empty-list-box" ng-if="tasks && tasks.length == 0">
           <p>Hurray! It seems that there's nothing left to do.</p>
@@ -69,6 +72,6 @@
         </div>
       </div>
     </main>
-    <footer><a href="" ng-click="logout()">Logout</a></footer>
+    <footer></footer>
   </body>
 </html>
