@@ -48,25 +48,39 @@
         </div>
         <div class="task-list-container">
           <div class="task-line" ng-repeat="task in tasks track by task.id">
-            <div class="pretty p-icon p-round">
-              <input
-                  ng-click="markTask($index)"
-                  ng-model="task.completed"
-                  type="checkbox"
-              />
-              <div class="state p-primary-o">
-                <i class="icon mdi mdi-check"></i>
-                <label>{{ task.contents }}</label>
+            <div class="line">
+              <div class="pretty p-icon p-round">
+                <input
+                    ng-click="markTask($index)"
+                    ng-model="task.completed"
+                    type="checkbox"
+                />
+                <div class="state p-primary-o">
+                  <i class="icon mdi mdi-check"></i>
+                  <label>{{ task.contents }}</label>
+                </div>
+              </div>
+              <div class="func-icon">
+                <i class="icon mdi mdi-close" ng-click="deleteTask($index)"></i>
+              </div>
+              <div class="func-icon">
+                <i class="icon mdi mdi-view-headline" ng-click="showSubline = !showSubline"></i>
+              </div>
+              <div class="func-icon">
+                <i class="icon mdi mdi-circle-edit-outline"></i>
               </div>
             </div>
-            <div class="func-icon">
-              <i class="icon mdi mdi-close" ng-click="deleteTask($index)"></i>
-            </div>
-            <div class="func-icon">
-              <i class="icon mdi mdi-view-headline"></i>
-            </div>
-            <div class="func-icon">
-              <i class="icon mdi mdi-circle-edit-outline"></i>
+            <div class="sublist-line" ng-repeat="checklistItem in task.checklist track by checklistItem.id" ng-show="showSubline">
+              <div class="pretty p-default p-round">
+                <input
+                    ng-click="markChecklistItem($parent.$index, $index)"
+                    ng-model="task.checklist[$index].completed"
+                    type="checkbox"
+                />
+                <div class="state p-primary">
+                  <label>{{ checklistItem.description }}</label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
