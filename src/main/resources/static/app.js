@@ -1,4 +1,4 @@
-var app = angular.module("todooApp", []);
+var app = angular.module("todooApp", ['ngAnimate']);
 var baseUrl = "/api";
 
 app.controller("taskController", function($scope, $http) {

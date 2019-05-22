@@ -166,3 +166,12 @@ color: rgb(70, 136, 241);
   padding-left: 25px;
   margin-top: 10px;
 }
+
+.fade-in.ng-enter {
+  transition:0.4s linear all;
+  opacity:0;
+}
+
+.fade-in.ng-enter.ng-enter-active {
+  opacity:1;
+}
