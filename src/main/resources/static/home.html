@@ -58,7 +58,7 @@
                 />
                 <div class="state p-primary-o">
                   <i class="icon mdi mdi-check"></i>
-                  <label><span ng-if="!isEdited">{{ task.contents }}</span></label>
+                  <label><span class="completed-{{ task.completed }}" ng-if="!isEdited">{{ task.contents }}</span></label>
                 </div>
               </div>
               <input class="task-edit-field" ng-model="task.contents" ng-show="isEdited" type="text"/>
@@ -82,7 +82,7 @@
                     type="checkbox"
                 />
                 <div class="state p-primary">
-                  <label>{{ checklistItem.description }}</label>
+                  <label><span class="completed-{{ checklistItem.completed }}">{{ checklistItem.description }}</span></label>
                 </div>
               </div>
             </div>

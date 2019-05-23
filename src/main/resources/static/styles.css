@@ -202,3 +202,8 @@ color: rgb(70, 136, 241);
   color: rgb(231, 69, 60);
   border: 1px solid rgb(231, 69, 60);
 }
+
+.completed-true {
+  color: rgb(220, 220, 220);
+  text-decoration: line-through;
+}
