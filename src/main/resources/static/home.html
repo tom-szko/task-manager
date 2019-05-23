@@ -58,17 +58,20 @@
                 />
                 <div class="state p-primary-o">
                   <i class="icon mdi mdi-check"></i>
-                  <label>{{ task.contents }}</label>
+                  <label><span ng-if="!isEdited">{{ task.contents }}</span></label>
                 </div>
               </div>
+              <input class="task-edit-field" ng-model="task.contents" ng-show="isEdited" type="text"/>
+              <input class="task-edit-save-btn btn" ng-click="isEdited=false; updateTask($index)" ng-show="isEdited" type="button" value="Save"/>
               <div class="func-icon">
                 <i class="icon mdi mdi-close" ng-click="deleteTask($index)"></i>
               </div>
               <div class="func-icon">
-                <i class="icon mdi mdi-view-headline" ng-click="showSubline = !showSubline"></i>
+                <i class="icon mdi mdi-view-headline" ng-click="showSubline = !showSubline"
+                   ng-show="task.checklist && task.checklist.length !== 0"></i>
               </div>
               <div class="func-icon">
-                <i class="icon mdi mdi-circle-edit-outline"></i>
+                <i class="icon mdi mdi-circle-edit-outline" ng-click="isEdited = true"></i>
               </div>
             </div>
             <div class="sublist-line fade-in" ng-repeat="checklistItem in task.checklist track by checklistItem.id" ng-show="showSubline">

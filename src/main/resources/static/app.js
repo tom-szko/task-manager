@@ -87,6 +87,28 @@ app.controller("taskController", function($scope, $http) {
     );
   };
 
+    $scope.updateTask = function(x) {
+      $http({
+        method: "PUT",
+        url: baseUrl + "/tasks/" + $scope.tasks[x].id,
+        data: {
+          checklist: $scope.tasks[x].checklist,
+          completed: $scope.tasks[x].completed,
+          contents: $scope.tasks[x].contents,
+          creationDate: $scope.tasks[x].creationDate,
+          deadline: $scope.tasks[x].deadline,
+          userName: $scope.tasks[x].userName
+        }
+      }).then(
+        function success() {
+          getAllItems();
+        },
+        function error(response) {
+          alert(response.statusText);
+        }
+      );
+    };
+
     $scope.markChecklistItem = function(parentIndex, index) {
       !$scope.tasks[parentIndex].checklist[index].completed;
       $http({

@@ -168,10 +168,37 @@ color: rgb(70, 136, 241);
 }
 
 .fade-in.ng-enter {
-  transition:0.4s linear all;
-  opacity:0;
+  transition: 0.4s linear all;
+  opacity: 0;
 }
 
 .fade-in.ng-enter.ng-enter-active {
-  opacity:1;
+  opacity: 1;
+}
+
+.task-edit-field {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 16px;
+  color: rgb(133, 139, 144);
+  background-color: rgb(255, 255, 255);
+  border-radius: 50px;
+  border: 0;
+  width: 580px;
+  height: 20px;
+  margin-left: -13px;
+}
+
+.task-edit-save-btn {
+  width: 40px;
+  height: 20px;
+  font-size: 12px;
+  color: rgb(70, 136, 241);
+  background-color: rgb(255, 255, 255);
+  border: solid 1px rgb(70, 136, 241);
+}
+
+.task-edit-save-btn:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(231, 69, 60);
+  border: 1px solid rgb(231, 69, 60);
 }
