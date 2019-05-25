@@ -207,3 +207,5 @@ color: rgb(70, 136, 241);
   color: rgb(220, 220, 220);
   text-decoration: line-through;
 }
+
+.ng-hide { display: none !important }
