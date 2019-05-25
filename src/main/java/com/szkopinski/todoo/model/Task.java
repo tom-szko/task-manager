@@ -53,7 +53,7 @@ public class Task {
 
   @NotNull
   @ManyToOne(cascade = CascadeType.ALL)
-  @ApiModelProperty(name = "account", dataType = "String", example = "john_doe123")
+  @ApiModelProperty(name = "account", example = "john_doe123")
   private UserName userName;
 
   public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline, UserName userName) {

@@ -26,17 +26,6 @@ public class SwaggerConfiguration {
         .build();
   }
 
-//  @Bean
-//  static Docket accountsApi() {
-//    return new Docket(DocumentationType.SWAGGER_2)
-//        .groupName("accounts-api")
-//        .useDefaultResponseMessages(false)
-//        .apiInfo(apiInfo())
-//        .select()
-//        .paths(regex("/api/accounts.*"))
-//        .build();
-//  }
-
   @Bean
   public UiConfiguration uiConfig() {
     return new UiConfiguration(null);

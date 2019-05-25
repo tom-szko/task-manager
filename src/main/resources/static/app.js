@@ -1,4 +1,4 @@
-var app = angular.module("todooApp", []);
+var app = angular.module("todooApp", ['ngAnimate']);
 var baseUrl = "/api";
 
 app.controller("taskController", function($scope, $http) {
@@ -86,6 +86,51 @@ app.controller("taskController", function($scope, $http) {
       }
     );
   };
+
+    $scope.updateTask = function(x) {
+      $http({
+        method: "PUT",
+        url: baseUrl + "/tasks/" + $scope.tasks[x].id,
+        data: {
+          checklist: $scope.tasks[x].checklist,
+          completed: $scope.tasks[x].completed,
+          contents: $scope.tasks[x].contents,
+          creationDate: $scope.tasks[x].creationDate,
+          deadline: $scope.tasks[x].deadline,
+          userName: $scope.tasks[x].userName
+        }
+      }).then(
+        function success() {
+          getAllItems();
+        },
+        function error(response) {
+          alert(response.statusText);
+        }
+      );
+    };
+
+    $scope.markChecklistItem = function(parentIndex, index) {
+      !$scope.tasks[parentIndex].checklist[index].completed;
+      $http({
+        method: "PUT",
+        url: baseUrl + "/tasks/" + $scope.tasks[parentIndex].id,
+        data: {
+         checklist: $scope.tasks[parentIndex].checklist,
+         completed: $scope.tasks[parentIndex].completed,
+         contents: $scope.tasks[parentIndex].contents,
+         creationDate: $scope.tasks[parentIndex].creationDate,
+         deadline: $scope.tasks[parentIndex].deadline,
+         userName: $scope.tasks[parentIndex].userName
+         }
+      }).then(
+        function success() {
+          getAllItems();
+        },
+        function error(response) {
+          alert(response.statusText);
+        }
+      );
+    };
 
   $scope.deleteTask = function(x) {
     $http({
