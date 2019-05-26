@@ -39,8 +39,8 @@ public class TaskService {
   }
 
   public Iterable<Task> findAllTasks() {
-    Sort sortByCreationDate = new Sort(Sort.Direction.DESC, "creationDate");
-    return taskRepository.findAll(sortByCreationDate);
+    Sort sortById = new Sort(Sort.Direction.ASC, "id");
+    return taskRepository.findAll(sortById);
   }
 
   public List<Task> findAllTasksByUserName(String userName) {
