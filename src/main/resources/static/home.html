@@ -59,7 +59,7 @@
                 />
                 <div class="state p-primary-o">
                   <i class="icon mdi mdi-check"></i>
-                  <label><span class="completed-{{ task.completed }}" ng-if="!isEdited">{{ task.contents }}</span>d</label>
+                  <label><span class="completed-{{ task.completed }}" ng-if="!isEdited">{{ task.contents }}</span></label>
                 </div>
               </div>
               <input class="task-edit-field" ng-hide="!isEdited" ng-model="task.contents" type="text"/>
