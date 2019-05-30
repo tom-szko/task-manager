@@ -39,8 +39,8 @@ public class TaskService {
   }
 
   public Iterable<Task> findAllTasks() {
-    Sort sortByCreationDate = new Sort(Sort.Direction.DESC, "creationDate");
-    return taskRepository.findAll(sortByCreationDate);
+    Sort sortById = new Sort(Sort.Direction.ASC, "id");
+    return taskRepository.findAll(sortById);
   }
 
   public List<Task> findAllTasksByUserName(String userName) {
@@ -52,14 +52,15 @@ public class TaskService {
   }
 
   @Transactional
-  public Task updateTask(int taskId, @NonNull Task updatedTask) {
+  public Task updateTask(int taskId, @NonNull Task task) {
     return taskRepository.findById(taskId)
-        .map(task -> {
-          task.setContents(updatedTask.getContents());
-          task.setCompleted(updatedTask.isCompleted());
-          task.setChecklist(updatedTask.getChecklist());
-          task.setDeadline(updatedTask.getDeadline());
-          return task;
+        .map(taskData -> {
+          taskData.setContents(task.getContents());
+          taskData.setCompleted(task.isCompleted());
+          taskData.setChecklist(task.getChecklist());
+          taskData.setDeadline(task.getDeadline());
+          Task updatedTask = taskRepository.save(taskData);
+          return updatedTask;
         }).orElse(null);
   }
 }

@@ -87,6 +87,14 @@ app.controller("taskController", function($scope, $http) {
     );
   };
 
+    $scope.addChecklistItem = function(parentIndex) {
+      $scope.tasks[parentIndex].checklist.push({
+        description: "New item",
+        completed: "false"
+      });
+      $scope.updateTask(parentIndex);
+    }
+
     $scope.updateTask = function(x) {
       $http({
         method: "PUT",
@@ -108,6 +116,11 @@ app.controller("taskController", function($scope, $http) {
         }
       );
     };
+
+    $scope.deleteChecklistItem = function(parentIndex, index) {
+      $scope.tasks[parentIndex].checklist.splice(index, 1);
+      $scope.updateTask(parentIndex);
+    }
 
     $scope.markChecklistItem = function(parentIndex, index) {
       !$scope.tasks[parentIndex].checklist[index].completed;

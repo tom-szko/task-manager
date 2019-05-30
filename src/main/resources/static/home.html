@@ -63,7 +63,6 @@
                 </div>
               </div>
               <input class="task-edit-field" ng-hide="!isEdited" ng-model="task.contents" type="text"/>
-              <input class="task-edit-save-btn btn" ng-click="isEdited=false; updateTask($index)" ng-hide="!isEdited" type="submit" value="Save"/>
               <div class="func-icon">
                 <i class="icon mdi mdi-close" ng-click="deleteTask($index)" ng-show="isActiveLine"></i>
               </div>
@@ -72,7 +71,12 @@
                    ng-show="task.checklist && task.checklist.length !== 0 && isActiveLine"></i>
               </div>
               <div class="func-icon">
-                <i class="icon mdi mdi-circle-edit-outline" ng-click="isEdited = true" ng-show="isActiveLine"></i>
+                <i class="icon mdi mdi-playlist-plus" ng-click="showSubline=true; addChecklistItem($index)"
+                   ng-show="isActiveLine"></i>
+              </div>
+              <div class="func-icon">
+                <i class="icon mdi mdi-circle-edit-outline" ng-click="isEdited = true" ng-show="isActiveLine && !isEdited"></i>
+                <input class="task-edit-save-btn btn" ng-click="isEdited=false; updateTask($index)" ng-hide="!isEdited" type="submit" value="Save"/>
               </div>
             </div>
             <div class="sublist-line" ng-repeat="checklistItem in task.checklist track by checklistItem.id" ng-show="showSubline">
@@ -83,8 +87,20 @@
                     type="checkbox"
                 />
                 <div class="state p-primary">
-                  <label><span class="completed-{{ checklistItem.completed }}">{{ checklistItem.description }}</span></label>
+                  <label><span class="completed-{{ checklistItem.completed }}"
+                               ng-if="!isChecklistItemEdited">{{ checklistItem.description }}</span></label>
                 </div>
+              </div>
+              <input class="checklist-item-edit-field" ng-hide="!isChecklistItemEdited" ng-model="task.checklist[$index].description"
+                     type="text"/>
+              <div class="func-icon">
+                <i class="icon mdi mdi-close" ng-click="deleteChecklistItem($parent.$index, $index)"></i>
+              </div>
+              <div class="func-icon">
+                <i class="icon mdi mdi-circle-edit-outline" ng-click="isChecklistItemEdited = true" ng-show="!isChecklistItemEdited"></i>
+                <input class="task-edit-save-btn btn" ng-click="isChecklistItemEdited=false; updateTask($parent.$index)"
+                       ng-hide="!isChecklistItemEdited" type="submit"
+                       value="Save"/>
               </div>
             </div>
           </div>

@@ -5,16 +5,19 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.szkopinski.todoo.model.ChecklistItem;
 import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.model.UserName;
 import com.szkopinski.todoo.service.TaskService;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +62,8 @@ class TaskControllerIT {
   void shouldReturnTaskById() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), new UserName("user"));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14),
+        new UserName("user"));
     taskService.addTask(task);
     //when
     mockMvc
@@ -77,7 +81,8 @@ class TaskControllerIT {
   void shouldAddNewTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), new UserName("user"));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14),
+        new UserName("user"));
     String taskAsJson = convertToJson(task);
     //when
     mockMvc
@@ -98,7 +103,8 @@ class TaskControllerIT {
   void shouldRemoveSingleTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), new UserName("user"));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14),
+        new UserName("user"));
     taskService.addTask(task);
     //when
     mockMvc
@@ -108,5 +114,41 @@ class TaskControllerIT {
         .andExpect(status().isNoContent());
 
     assertFalse(taskService.findTask(taskId).isPresent());
+  }
+
+  @Test
+  @DisplayName("Should update single task")
+  @WithMockUser
+  void shouldUpdateSingleTask() throws Exception {
+    //given
+    Task task = new Task("Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5), new UserName("user"));
+    Task addedTask = taskService.addTask(task);
+    List<ChecklistItem> updatedChecklistItems = new ArrayList<>();
+    updatedChecklistItems.add(new ChecklistItem("Buy milk", false));
+    updatedChecklistItems.add(new ChecklistItem("Wash dishes", true));
+    Task updatedTask = new Task(addedTask.getId(), "Updated title", false, updatedChecklistItems, task.getCreationDate(), LocalDate.of(2019, 6,
+        20),
+        new UserName("user"));
+    String updatedTaskAsJson = convertToJson(updatedTask);
+
+    //when
+    mockMvc
+        .perform(put(URL_TEMPLATE + addedTask.getId())
+            .contentType(CONTENT_TYPE_JSON)
+            .content(updatedTaskAsJson))
+        .andDo(print())
+        //then
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(CONTENT_TYPE_JSON))
+        .andExpect(jsonPath("$.id").value(updatedTask.getId()))
+        .andExpect(jsonPath("$.contents").value(updatedTask.getContents()))
+        .andExpect(jsonPath("$.completed").value(updatedTask.isCompleted()))
+        .andExpect(jsonPath("$.checklist[0].description").value(updatedTask.getChecklist().get(0).getDescription()))
+        .andExpect(jsonPath("$.checklist[0].completed").value(updatedTask.getChecklist().get(0).isCompleted()))
+        .andExpect(jsonPath("$.checklist[1].description").value(updatedTask.getChecklist().get(1).getDescription()))
+        .andExpect(jsonPath("$.checklist[1].completed").value(updatedTask.getChecklist().get(1).isCompleted()))
+        .andExpect(jsonPath("$.creationDate").value(updatedTask.getCreationDate().toString()))
+        .andExpect(jsonPath("$.deadline").value(updatedTask.getDeadline().toString()))
+        .andExpect(jsonPath("$.userName.name").value(updatedTask.getUserName().getName()));
   }
 }
