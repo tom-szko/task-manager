@@ -49,7 +49,7 @@ public class TaskController {
     return ResponseEntity.ok(taskService.findAllTasks());
   }
 
-  @GetMapping("/{userName}/tasks")
+  @GetMapping("{userName}/tasks")
   @ApiOperation(value = "Finds all tasks for logged in user", notes = "Retrieving the collection of tasks for current user name", response =
       Task[].class)
   @ApiResponses( {

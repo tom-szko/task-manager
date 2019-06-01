@@ -4,16 +4,15 @@ var baseUrl = "/api";
 app.controller("taskController", function($scope, $http) {
 
   getUserName();
-  getAllItems();
 
   function getUserName() {
-    console.log("getting user name");
         $http({
           method: "GET",
           url: baseUrl + "/user"
         }).then(
           function success(response) {
             $scope.username = response.data.name;
+            getAllItems($scope.username);
           },
           function error(response) {
             alert(response.statusText);
@@ -21,11 +20,11 @@ app.controller("taskController", function($scope, $http) {
         );
   }
 
-  function getAllItems() {
-    console.log("retrieved records from DB");
+  function getAllItems(username) {
+
     $http({
       method: "GET",
-      url: baseUrl + "/tasks"
+      url: baseUrl + "/" + username + "/tasks"
     }).then(
       function success(response) {
         $scope.tasks = response.data;
@@ -46,12 +45,11 @@ app.controller("taskController", function($scope, $http) {
         contents: $scope.taskToAdd,
         creationDate: new Date(),
         deadline: "2019-04-22",
-        userName: "admin"
+        userName: $scope.username
       }
     }).then(
       function success() {
-        console.log("successfully added new task");
-        getAllItems();
+        getAllItems($scope.username);
       },
       function error(response) {
         alert(response.statusText);
@@ -79,7 +77,7 @@ app.controller("taskController", function($scope, $http) {
       }
     }).then(
       function success() {
-        getAllItems();
+        getAllItems($scope.username);
       },
       function error(response) {
         alert(response.statusText);
@@ -109,7 +107,7 @@ app.controller("taskController", function($scope, $http) {
         }
       }).then(
         function success() {
-          getAllItems();
+          getAllItems($scope.username);
         },
         function error(response) {
           alert(response.statusText);
@@ -137,7 +135,7 @@ app.controller("taskController", function($scope, $http) {
          }
       }).then(
         function success() {
-          getAllItems();
+          getAllItems($scope.username);
         },
         function error(response) {
           alert(response.statusText);
@@ -151,7 +149,7 @@ app.controller("taskController", function($scope, $http) {
       url: baseUrl + "/tasks/" + $scope.tasks[x].id
     }).then(
       function success() {
-        getAllItems();
+        getAllItems($scope.username);
       },
       function error(response) {
         alert(response.statusText);
@@ -176,7 +174,6 @@ app.controller("securityController", function($scope, $http) {
   $scope.credentials = {};
 
   $scope.login = function() {
-  console.log("login fired")
     $http({
     method: "GET",
     url: baseUrl + "/user",
