@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -38,9 +39,13 @@ public class Account {
   @Email
   private String email;
 
-  public Account(String userName, String password, String email) {
+  @OneToOne
+  private ImageFile avatar;
+
+  public Account(String userName, String password, String email, ImageFile avatar) {
     this.userName = userName;
     this.password = password;
     this.email = email;
+    this.avatar = avatar;
   }
 }

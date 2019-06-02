@@ -52,9 +52,9 @@ class AccountControllerTest {
   void shouldReturnAllAccounts() throws Exception {
 
     //given
-    Account account1 = new Account("user1", "password1", "email1@email.com");
-    Account account2 = new Account("user2", "password2", "email2@email.com");
-    Account account3 = new Account("user3", "password3", "email3@email.com");
+    Account account1 = new Account("user1", "password1", "email1@email.com", null);
+    Account account2 = new Account("user2", "password2", "email2@email.com", null);
+    Account account3 = new Account("user3", "password3", "email3@email.com", null);
     Iterable<Account> accounts = List.of(account1, account2, account3);
     String accountsAsJson = convertToJson(accounts);
     when(accountService.getAllAccounts()).thenReturn(accounts);
@@ -78,7 +78,7 @@ class AccountControllerTest {
   void shouldReturnAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Account account = new Account("user", "password", "email1@email.com");
+    Account account = new Account("user", "password", "email1@email.com", null);
     String accountAsJson = convertToJson(account);
     when(accountService.getAccountById(accountId)).thenReturn(Optional.of(account));
 
@@ -100,7 +100,7 @@ class AccountControllerTest {
   @DisplayName("Should add new user account")
   void shouldAddNewUserAccount() throws Exception {
     //given
-    Account account = new Account("user", "password", "user@email.com");
+    Account account = new Account("user", "password", "user@email.com", null);
     String accountAsJson = convertToJson(account);
     when(accountService.addAccount(account)).thenReturn(account);
     //when
@@ -142,7 +142,7 @@ class AccountControllerTest {
   void shouldUpdateAccountWithGivenId() throws Exception {
     //given
     int accountId = 1;
-    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com");
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com", null);
     String updatedAccountAsJson = convertToJson(updatedAccount);
     when(accountService.updateAccount(accountId, updatedAccount)).thenReturn(updatedAccount);
 
@@ -166,7 +166,7 @@ class AccountControllerTest {
   void shouldReturnNotFoundWhenAccountIsNotFound() throws Exception {
     //given
     int accountId = 1;
-    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com");
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com", null);
     String updatedAccountAsJson = convertToJson(updatedAccount);
     when(accountService.updateAccount(accountId, updatedAccount)).thenReturn(null);
 
@@ -189,7 +189,7 @@ class AccountControllerTest {
   void shouldReturnInternalServerErrorWhenExceptionIsThrowOnAccountUpdate() throws Exception {
     //given
     int accountId = 1;
-    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com");
+    Account updatedAccount = new Account("updated_user", "updated_password", "updated@email.com", null);
     String updatedAccountAsJson = convertToJson(updatedAccount);
     doThrow(NullPointerException.class).when(accountService).updateAccount(accountId, updatedAccount);
 

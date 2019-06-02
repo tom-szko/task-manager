@@ -33,10 +33,10 @@ public class TodooApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Account account1 = new Account("admin", passwordEncoder.encode("password"), "admin@szkopinski.com");
+    Account account1 = new Account("admin", passwordEncoder.encode("password"), "admin@szkopinski.com", null);
     accountRepository.save(account1);
     System.out.println(account1.toString());
-    Account account2 = new Account("tyler", passwordEncoder.encode("password"), "tyler@email.com");
+    Account account2 = new Account("tyler", passwordEncoder.encode("password"), "tyler@email.com", null);
     accountRepository.save(account2);
     System.out.println(account2.toString());
 

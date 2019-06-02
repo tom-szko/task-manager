@@ -30,7 +30,7 @@ public class ImageFileService {
     }
   }
 
-  public ImageFile getFile(String fileId) throws FileNotFoundException {
+  public ImageFile getFile(int fileId) throws FileNotFoundException {
     return imageFileRepository.findById(fileId)
         .orElseThrow(() -> new FileNotFoundException("File with id: " + fileId + " could not be found."));
   }

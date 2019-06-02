@@ -32,15 +32,15 @@ public class ImageFileController {
     ImageFile imageFile = imageFileService.saveFile(file);
 
     String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-        .path("/downloadFile/")
-        .path(imageFile.getId())
+        .path("/api/images/downloadFile/")
+        .path(String.valueOf(imageFile.getId()))
         .toUriString();
 
-    return new UploadFileResponse(imageFile.getFileName(), fileDownloadUri, imageFile.getFileType());
+    return new UploadFileResponse(imageFile.getFileName(), fileDownloadUri, imageFile.getFileType(), file.getSize());
   }
 
   @GetMapping("/downloadFile/{fileId}")
-  public ResponseEntity<Resource> downloadFile(@PathVariable("fileId") String fileId) throws FileNotFoundException {
+  public ResponseEntity<Resource> downloadFile(@PathVariable("fileId") int fileId) throws FileNotFoundException {
     ImageFile imageFile = imageFileService.getFile(fileId);
     return ResponseEntity.ok()
         .contentType(MediaType.parseMediaType(imageFile.getFileType()))
