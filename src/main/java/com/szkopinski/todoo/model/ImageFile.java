@@ -24,9 +24,9 @@ public class ImageFile {
 
   private String fileName;
 
-  @Lob
   private String fileType;
 
+  @Lob
   private byte[] data;
 
   public ImageFile(String fileName, String fileType, byte[] data) {

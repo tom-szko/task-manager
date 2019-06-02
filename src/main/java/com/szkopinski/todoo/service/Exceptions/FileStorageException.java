@@ -1,4 +1,4 @@
-package com.szkopinski.todoo.service;
+package com.szkopinski.todoo.service.Exceptions;
 
 public class FileStorageException extends Exception {
 

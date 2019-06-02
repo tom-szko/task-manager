@@ -2,6 +2,7 @@ package com.szkopinski.todoo.service;
 
 import com.szkopinski.todoo.model.ImageFile;
 import com.szkopinski.todoo.repository.ImageFileRepository;
+import com.szkopinski.todoo.service.Exceptions.FileStorageException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
