@@ -39,8 +39,8 @@ class AccountServiceTest {
   void shouldReturnAllExistingAccounts() {
     //given
     List<Account> accounts = new ArrayList<>();
-    Account account1 = new Account("John Doe", "password", "john@doe.com");
-    Account account2 = new Account("Claire Jenkins", "pass123", "claire@email.com");
+    Account account1 = new Account("John Doe", "password", "john@doe.com", null);
+    Account account2 = new Account("Claire Jenkins", "pass123", "claire@email.com", null);
     accounts.add(account1);
     accounts.add(account2);
 
@@ -59,7 +59,7 @@ class AccountServiceTest {
   void shouldReturnAccountWithGivenId() {
     //given
     int accountId = 1;
-    Account account = new Account(accountId, "John Doe", "password", "john@doe.com");
+    Account account = new Account(accountId, "John Doe", "password", "john@doe.com", null);
     when(repository.findById(accountId)).thenReturn(Optional.of(account));
 
     //when
@@ -75,7 +75,7 @@ class AccountServiceTest {
   void shouldReturnAccountWithGivenUserName() {
     //given
     String userName = "John Doe";
-    Account account = new Account(userName, "password", "john@doe.com");
+    Account account = new Account(userName, "password", "john@doe.com", null);
     when(repository.findByUserName("John Doe")).thenReturn(Optional.of(account));
 
     //when
@@ -90,7 +90,7 @@ class AccountServiceTest {
   @DisplayName("Should return added account")
   void shouldReturnAddedAccount() {
     //given
-    Account account = new Account("John Doe", "password", "john@doe.com");
+    Account account = new Account("John Doe", "password", "john@doe.com", null);
     when(repository.save(account)).thenReturn(account);
 
     //when
@@ -106,8 +106,8 @@ class AccountServiceTest {
   void shouldUpdateExistingAccount() {
     //given
     int accountId = 1;
-    Account account = new Account(accountId, "John Doe", "password", "john@doe.com");
-    Account updatedAccount = new Account(accountId, "John P. Doe", "updatedPassword", "john@doe2.com");
+    Account account = new Account(accountId, "John Doe", "password", "john@doe.com", null);
+    Account updatedAccount = new Account(accountId, "John P. Doe", "updatedPassword", "john@doe2.com", null);
     when(repository.findById(accountId)).thenReturn(Optional.of(account));
 
     //when

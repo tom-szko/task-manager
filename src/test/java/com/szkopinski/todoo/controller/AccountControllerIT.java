@@ -96,7 +96,7 @@ class AccountControllerIT {
   @WithMockUser
   void shouldAddNewAccount() throws Exception {
     //given
-    Account account = new Account("john_doe", "johnspassword", "john@doe.com");
+    Account account = new Account("john_doe", "johnspassword", "john@doe.com", null);
     String accountAsJson = convertToJson(account);
     //when
     mockMvc
@@ -116,9 +116,9 @@ class AccountControllerIT {
   @WithMockUser
   void shouldUpdateExistingAccount() throws Exception {
     //given
-    Account account = new Account("John Doe", "password", "john@doe.com");
+    Account account = new Account("John Doe", "password", "john@doe.com", null);
     Account savedAccount = accountService.addAccount(account);
-    Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
+    Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com", null);
     String updatedAccountAsJson = convertToJson(updatedAccount);
 
     //when
@@ -156,9 +156,9 @@ class AccountControllerIT {
   void shouldReturnNotFoundWhenBadIdProvidedOnAccountUpdate() throws Exception {
     //given
     int accountId = 100;
-    Account account = new Account("John Doe", "password", "john@doe.com");
+    Account account = new Account("John Doe", "password", "john@doe.com", null);
     Account savedAccount = accountService.addAccount(account);
-    Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com");
+    Account updatedAccount = new Account(savedAccount.getId(), "John P. Doe", "updatedPassword", "john@doe2.com", null);
     String updatedAccountAsJson = convertToJson(updatedAccount);
 
     //when
