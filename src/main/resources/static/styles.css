@@ -240,3 +240,19 @@ color: rgb(70, 136, 241);
 }
 
 .ng-hide { display: none !important }
+
+.avatar {
+  width: 150px;
+}
+
+.avatar img {
+  border: 0px;
+  border-radius: 100px;
+  width: 150px;
+  height: auto;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
