@@ -24,18 +24,15 @@
     Todoo - a simple task manager
   </title>
 </head>
+<body>
 <header>
-  <div class="header-container">
-    <img alt="Todoo logo" src="images/app_logo.png"/>
+  <div class="header-container" ng-controller="taskController">
+    <a href="#!about"><img alt="Todoo logo" class="todo-logo" src="images/app_logo.png"/></a>
+    <div class="user-info">
+      Logged in as <a href="#!account"><b>{{ username }}</b></a>. <a class="logout-link" href="" ng-click="logout()">Logout</a>
+    </div>
   </div>
 </header>
-<body ng-controller="securityController">
-<div class="login-form-container">
-  <form role="form">
-    <input class="login-field" ng-model="credentials.username" placeholder="Username" spellcheck="false" type="text"/>
-    <input class="login-field" ng-model="credentials.password" placeholder="Password" type="password"/>
-    <input class="btn submit-btn " ng-click="login()" type="submit" value="Sign in"/>
-  </form>
-</div>
+<main ng-view></main>
 </body>
 </html>

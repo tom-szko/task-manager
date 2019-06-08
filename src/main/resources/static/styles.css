@@ -10,9 +10,15 @@
 
 html {
   font-family: "Source Sans Pro", sans-serif;
-  font-weight: 300;
   color: rgb(140, 140, 140);
   font-weight: 300;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  font-family: "Source Sans Pro", sans-serif;
+  color: rgb(140, 140, 140);
+  font-weight: 100;
   text-rendering: optimizeLegibility;
 }
 
@@ -217,6 +223,20 @@ color: rgb(70, 136, 241);
   height: 20px;
   margin-left: -13px;
   background-color: rgb(241, 243, 244);
+}
+
+.basic-container {
+  width: 780px;
+  clear: left;
+  margin: 50px auto 50px auto;
+}
+
+.basic-container h1 {
+  margin-bottom: 30px;
+}
+
+.basic-container p {
+  margin-bottom: 15px;
 }
 
 .ng-hide { display: none !important }

@@ -1,5 +1,24 @@
-var app = angular.module("todooApp", ['ngAnimate']);
+var app = angular.module("todooApp", ["ngAnimate", "ngRoute"]);
 var baseUrl = "/api";
+
+app.config(function($routeProvider) {
+
+	$routeProvider
+		.when('/tasks', {
+			templateUrl: 'views/tasks.html',
+			controller: 'taskController'
+		})
+		.when('/account', {
+			templateUrl: 'views/account.html',
+			controller: 'accountController'
+		})
+		.when('/about', {
+			templateUrl: 'views/about.html'
+		})
+    .otherwise({
+			redirectTo: '/tasks'
+		});
+});
 
 app.controller("taskController", function($scope, $http) {
 
@@ -180,11 +199,31 @@ app.controller("securityController", function($scope, $http) {
     headers: {"Authorization": "Basic " + btoa($scope.credentials.username + ":" + $scope.credentials.password)
     }}).then(
              function success(response) {
-               window.location.href = "/home.html";
+               window.location.href = "/index.html";
              },
              function error(response) {
                alert(response.statusText);
              }
            );
          }
+});
+
+app.controller("accountController", function($scope, $http) {
+
+  getAccount();
+
+  function getAccount() {
+        $http({
+          method: "GET",
+          url: baseUrl + "/accounts/1"
+        }).then(
+          function success(response) {
+            $scope.accountData = response.data;
+            console.log($scope.accountData);
+          },
+          function error(response) {
+            alert(response.statusText);
+          }
+        );
+  }
 });
