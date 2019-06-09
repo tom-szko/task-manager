@@ -20,7 +20,7 @@ app.config(function($routeProvider) {
 		});
 });
 
-app.controller("taskController", function($scope, $http) {
+app.controller("taskController", function($rootScope, $scope, $http) {
 
   getUserName();
 
@@ -30,8 +30,8 @@ app.controller("taskController", function($scope, $http) {
           url: baseUrl + "/user"
         }).then(
           function success(response) {
-            $scope.username = response.data.name;
-            getAllItems($scope.username);
+            $rootScope.username = response.data.name;
+            getAllItems($rootScope.username);
           },
           function error(response) {
             alert(response.statusText);
@@ -68,7 +68,7 @@ app.controller("taskController", function($scope, $http) {
       }
     }).then(
       function success() {
-        getAllItems($scope.username);
+        getAllItems($rootScope.username);
       },
       function error(response) {
         alert(response.statusText);
@@ -96,10 +96,10 @@ app.controller("taskController", function($scope, $http) {
       }
     }).then(
       function success() {
-        getAllItems($scope.username);
+        getAllItems($rootScope.username)
       },
       function error(response) {
-        alert(response.statusText);
+        alert(response.statusText)
       }
     );
   };
@@ -126,7 +126,7 @@ app.controller("taskController", function($scope, $http) {
         }
       }).then(
         function success() {
-          getAllItems($scope.username);
+          getAllItems($rootScope.username);
         },
         function error(response) {
           alert(response.statusText);
@@ -154,7 +154,7 @@ app.controller("taskController", function($scope, $http) {
          }
       }).then(
         function success() {
-          getAllItems($scope.username);
+          getAllItems($rootScope.username);
         },
         function error(response) {
           alert(response.statusText);
@@ -168,7 +168,7 @@ app.controller("taskController", function($scope, $http) {
       url: baseUrl + "/tasks/" + $scope.tasks[x].id
     }).then(
       function success() {
-        getAllItems($scope.username);
+        getAllItems($rootScope.username);
       },
       function error(response) {
         alert(response.statusText);
@@ -208,14 +208,14 @@ app.controller("securityController", function($scope, $http) {
          }
 });
 
-app.controller("accountController", function($scope, $http) {
+app.controller("accountController", function($rootScope, $scope, $http) {
 
   getAccount();
 
   function getAccount() {
         $http({
           method: "GET",
-          url: baseUrl + "/accounts/1"
+          url: baseUrl + "/accounts/" + $rootScope.username
         }).then(
           function success(response) {
             $scope.accountData = response.data;

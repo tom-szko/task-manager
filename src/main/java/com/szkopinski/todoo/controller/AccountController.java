@@ -38,10 +38,10 @@ public class AccountController {
     return ResponseEntity.ok(accountService.getAllAccounts());
   }
 
-  @GetMapping("/{accountId}")
-  @ApiOperation(value = "Finds single account by id", response = Account.class)
-  public ResponseEntity<Account> getAccount(@Min(1) @PathVariable("accountId") int accountId) {
-    return ResponseEntity.of(accountService.getAccountById(accountId));
+  @GetMapping("/{userName}")
+  @ApiOperation(value = "Finds single account by userName", response = Account.class)
+  public ResponseEntity<Account> getAccount(@PathVariable("userName") String userName) {
+    return ResponseEntity.of(accountService.getAccountByUserName(userName));
   }
 
   @PostMapping
