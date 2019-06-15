@@ -1,8 +1,17 @@
 <div class="basic-container">
   <h1>Account</h1>
-  <div class="avatar center"><img src="../images/happy_face.png"></div>
+  <div class="avatar center"><img src="{{ avatarUrl }}"></div>
   <p>UserName: {{ accountData.userName }}</p>
   <p>Password: {{ accountData.email }}</p>
-  </br>
+  <h4>Upload on file select</h4>
+  <button accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" ngf-select="uploadFiles($file, $invalidFiles)" type="file">Select File</button>
+  <br><br>
+  File:
+  <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+    <span class="progress" ng-show="f.progress >= 0">
+          <div ng-bind="f.progress + '%'" style="width:{{f.progress}}%"></div>
+      </span>
+  </div>
+  {{errorMsg}}
   <a href="#!tasks">Back to tasks</a>
 </div>

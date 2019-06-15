@@ -1,4 +1,4 @@
-var app = angular.module("todooApp", ["ngAnimate", "ngRoute"]);
+var app = angular.module("todooApp", ["ngAnimate", "ngRoute", "ngFileUpload"]);
 var baseUrl = "/api";
 
 app.config(function($routeProvider) {
@@ -19,6 +19,23 @@ app.config(function($routeProvider) {
 			redirectTo: '/tasks'
 		});
 });
+
+//app.directive('fileModel', ['$parse', function ($parse) {
+//    return {
+//       restrict: 'A',
+//       link: function(scope, element, attrs) {
+//          var model = $parse(attrs.fileModel);
+//          var modelSetter = model.assign;
+//
+//          element.bind('change', function(){
+//             scope.$apply(function(){
+//                modelSetter(scope, element[0].file);
+//             });
+//          });
+//       }
+//    };
+//
+//}]);
 
 app.controller("taskController", function($rootScope, $scope, $http) {
 
@@ -208,9 +225,39 @@ app.controller("securityController", function($scope, $http) {
          }
 });
 
-app.controller("accountController", function($rootScope, $scope, $http) {
+app.controller("accountController", function($rootScope, $scope, $http, Upload, $timeout) {
 
   getAccount();
+
+  $scope.uploadFiles = function(file, errFiles) {
+          $scope.f = file;
+          $scope.errFile = errFiles && errFiles[0];
+          if (file) {
+              file.upload = Upload.upload({
+                  url: baseUrl + '/images/uploadFile',
+                  data: {file: file}
+              });
+
+              file.upload.then(function (response) {
+                  $timeout(function () {
+                      file.result = response.data;
+                      $scope.avatarUrl = file.result.fileDownloadUri;
+                  });
+              }, function (response) {
+                  if (response.status > 0)
+                      $scope.errorMsg = response.status + ': ' + response.data;
+              }, function (evt) {
+                  file.progress = Math.min(100, parseInt(100.0 *
+                                           evt.loaded / evt.total));
+              });
+          }
+      }
+
+//  $scope.uploadResult = "";
+
+//  $scope.myForm = {
+//          file: null
+//  }
 
   function getAccount() {
         $http({
@@ -226,4 +273,27 @@ app.controller("accountController", function($rootScope, $scope, $http) {
           }
         );
   }
+
+//  $scope.doUploadFile = function() {
+//
+//          var url = baseUrl + "/images/uploadFile";
+//          var data = new FormData();
+//          data.append("file", $scope.myForm.file);
+//
+//          var config = {
+//              transformRequest: angular.identity,
+//              transformResponse: angular.identity,
+//              headers: {
+//                  'Content-Type': undefined
+//              }
+//          }
+//
+//          $http.post(url, data, config).then(
+//              function(response) {
+//                  $scope.uploadResult = response.data;
+//              },
+//              function(response) {
+//                  $scope.uploadResult = response.data;
+//              });
+//      };
 });
