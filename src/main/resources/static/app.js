@@ -266,6 +266,11 @@ app.controller("accountController", function($rootScope, $scope, $http, Upload, 
         }).then(
           function success(response) {
             $scope.accountData = response.data;
+            if ($scope.accountData.avatar) {
+            $scope.avatarUrl = baseUrl + "/images/downloadFile/" + $scope.accountData.avatar.id;
+            } else {
+            $scope.avatarUrl = "images/default_avatar.png";
+            }
             console.log($scope.accountData);
           },
           function error(response) {

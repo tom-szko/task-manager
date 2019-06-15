@@ -3,11 +3,11 @@
   <div class="avatar center"><img src="{{ avatarUrl }}"></div>
   <p>UserName: {{ accountData.userName }}</p>
   <p>Password: {{ accountData.email }}</p>
-  <h4>Upload on file select</h4>
-  <button accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" ngf-select="uploadFiles($file, $invalidFiles)" type="file">Select File</button>
+  <button accept="image/*" class="btn submit-btn" ngf-max-height="1000" ngf-max-size="1MB" ngf-select="uploadFiles($file, $invalidFiles)"
+          type="file">Upload photo
+  </button>
   <br><br>
-  File:
-  <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+  <div>{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
     <span class="progress" ng-show="f.progress >= 0">
           <div ng-bind="f.progress + '%'" style="width:{{f.progress}}%"></div>
       </span>

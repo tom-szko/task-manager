@@ -1,10 +1,15 @@
 package com.szkopinski.todoo.controller;
 
+import com.szkopinski.todoo.controller.ControllerExceptions.FileUploadControllerException;
 import com.szkopinski.todoo.controller.Response.UploadFileResponse;
+import com.szkopinski.todoo.model.Account;
 import com.szkopinski.todoo.model.ImageFile;
+import com.szkopinski.todoo.service.AccountService;
 import com.szkopinski.todoo.service.Exceptions.FileStorageException;
 import com.szkopinski.todoo.service.ImageFileService;
 import java.io.FileNotFoundException;
+import java.security.Principal;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -27,14 +32,30 @@ public class ImageFileController {
   @Autowired
   private ImageFileService imageFileService;
 
+  @Autowired
+  private AccountService accountService;
+
   @PostMapping("/uploadFile")
-  public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws FileStorageException {
-    ImageFile imageFile = imageFileService.saveFile(file);
+  public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, Principal user) throws FileUploadControllerException {
+    ImageFile imageFile = null;
+    try {
+      imageFile = imageFileService.saveFile(file);
+    } catch (FileStorageException e) {
+      throw new FileUploadControllerException("Encountered problem with file upload", e.getCause());
+    }
 
     String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
         .path("/api/images/downloadFile/")
         .path(String.valueOf(imageFile.getId()))
         .toUriString();
+
+    Optional<Account> currentAccount = accountService.getAccountByUserName(user.getName());
+    if (!currentAccount.isPresent()) {
+      throw new FileUploadControllerException("Encountered problem connecting image file with account");
+    }
+    Account account = currentAccount.get();
+    account.setAvatar(imageFile);
+    accountService.updateAccount(account.getId(), account);
 
     return new UploadFileResponse(imageFile.getFileName(), fileDownloadUri, imageFile.getFileType(), file.getSize());
   }
