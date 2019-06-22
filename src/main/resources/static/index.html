@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html ng-app="todooApp">
+<html lang="en" ng-app="todooApp">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-animate.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.min.js"></script>
-  <script src="ng-file-upload.min.js"></script>
-  <script src="app.js"></script>
-  <link
-      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400"
-      rel="stylesheet"
-  />
-  <link href="styles.css" rel="stylesheet" type="text/css"/>
-  <link
-      href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css"
-      rel="stylesheet"
-      type="text/css"
-  />
-  <link
-      href="external/pretty-checkbox.min.css"
-      rel="stylesheet"
-      type="text/css"
-  />
-  <title>
-    Todoo - a simple task manager
-  </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.min.js"></script>
+    <script src="ng-file-upload.min.js"></script>
+    <script src="app.js"></script>
+    <link
+            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400"
+            rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" type="text/css"/>
+    <link
+            href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css"
+            rel="stylesheet"
+            type="text/css"
+    />
+    <link
+            href="external/pretty-checkbox.min.css"
+            rel="stylesheet"
+            type="text/css"
+    />
+    <title>
+        Todoo - a simple task manager
+    </title>
 </head>
 <body>
 <header>
-  <div class="header-container" ng-controller="taskController">
-    <a href="#!about"><img alt="Todoo logo" class="todo-logo" src="images/app_logo.png"/></a>
-    <div class="user-info">
-      Logged in as <a href="#!account"><b>{{ username }}</b></a>. <a class="logout-link" href="" ng-click="logout()">Logout</a>
+    <div class="header-container" ng-controller="taskController">
+        <a href="#!about"><img alt="Todoo logo" class="todo-logo" src="images/app_logo.png"/></a>
+        <div class="user-info">
+            Logged in as <a href="#!account"><b>{{ username }}</b></a>.
+            <a class="logout-link" href="" ng-click="logout()">Logout</a>
+        </div>
     </div>
-  </div>
 </header>
 <main ng-view></main>
 </body>

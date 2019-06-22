@@ -1,7 +1,7 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 *:focus {
@@ -9,46 +9,46 @@
 }
 
 html {
-  font-family: "Source Sans Pro", sans-serif;
-  color: rgb(140, 140, 140);
-  font-weight: 300;
-  text-rendering: optimizeLegibility;
+    font-family: "Source Sans Pro", sans-serif;
+    color: rgb(140, 140, 140);
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
 }
 
 h1 {
-  font-family: "Source Sans Pro", sans-serif;
-  color: rgb(140, 140, 140);
-  font-weight: 100;
-  text-rendering: optimizeLegibility;
+    font-family: "Source Sans Pro", sans-serif;
+    color: rgb(140, 140, 140);
+    font-weight: 100;
+    text-rendering: optimizeLegibility;
 }
 
 .input-field {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 20px;
-  color: rgb(133, 139, 144);
-  height: 65px;
-  border: 0;
-  border-radius: 50px;
-  background-color: rgb(241, 243, 244);
-  text-indent: 30px;
-  float: left;
-  width: 700px;
-  padding-right: 30px;
-  margin-right: 15px;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 20px;
+    color: rgb(133, 139, 144);
+    height: 65px;
+    border: 0;
+    border-radius: 50px;
+    background-color: rgb(241, 243, 244);
+    text-indent: 30px;
+    float: left;
+    width: 700px;
+    padding-right: 30px;
+    margin-right: 15px;
 }
 
 .btn {
-  border: 0;
-  background-color: rgb(70, 136, 241);
-  border-radius: 50px;
-  font-family: "Source Sans Pro", sans-serif;
-  color: rgb(255, 255, 255);
-  transition: background-color 0.3s;
-  cursor: pointer;
+    border: 0;
+    background-color: rgb(70, 136, 241);
+    border-radius: 50px;
+    font-family: "Source Sans Pro", sans-serif;
+    color: rgb(255, 255, 255);
+    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 .btn:hover {
-  background-color: rgb(231, 69, 60);
+    background-color: rgb(231, 69, 60);
 }
 
 .submit-btn {
@@ -60,73 +60,73 @@ h1 {
 }
 
 .task-add-btn {
-  font-size: 180%;
-  width: 65px;
-  height: 65px;
-  float: left;
+    font-size: 180%;
+    width: 65px;
+    height: 65px;
+    float: left;
 }
 
 .input-container {
-  width: 780px;
-  margin-left: auto;
-  margin-right: auto;
+    width: 780px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .header-container {
-  width: 780px;
-  margin: 50px auto 50px auto;
-  text-align: center;
+    width: 780px;
+    margin: 50px auto 50px auto;
+    text-align: center;
 }
 
 .task-list-container {
-  width: 780px;
-  margin-top: 30px;
-  float: left;
+    width: 780px;
+    margin-top: 30px;
+    float: left;
 }
 
 .line {
-  width: 100%;
-  float: left;
-  border-radius: 50px;
-  margin-top: 7px;
-  padding: 7px 7px 7px 7px;
-  transition: background-color 0.3s;
+    width: 100%;
+    float: left;
+    border-radius: 50px;
+    margin-top: 7px;
+    padding: 7px 7px 7px 7px;
+    transition: background-color 0.3s;
 }
 
 .task-checkbox {
-  display: inline-block;
-  margin-right: 10px;
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .line:hover {
-  background-color: rgb(242, 248, 255);
-  border-radius: 50px;
+    background-color: rgb(242, 248, 255);
+    border-radius: 50px;
 }
 
 input::placeholder {
-  color: rgb(172, 176, 180);
+    color: rgb(172, 176, 180);
 }
 
 .func-icon {
-  float: right;
-  margin-right: 10px;
-  cursor: pointer;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 .func-icon:hover {
-  color: rgb(84, 152, 212);
+    color: rgb(84, 152, 212);
 }
 
 .empty-list-box {
-  width: 780px;
-  margin: 50px auto 50px auto;
-  text-align: center;
-  float: left;
+    width: 780px;
+    margin: 50px auto 50px auto;
+    text-align: center;
+    float: left;
 }
 
 .empty-list-box img {
-  width: auto;
-  margin-top: 50px;
+    width: auto;
+    margin-top: 50px;
 }
 
 .login-form-container {
@@ -136,136 +136,110 @@ input::placeholder {
 }
 
 .login-field {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 20px;
-  color: rgb(133, 139, 144);
-  height: 65px;
-  border: 0;
-  border-radius: 50px;
-  background-color: rgb(241, 243, 244);
-  text-indent: 30px;
-  float: left;
-  width: 780px;
-  padding-right: 30px;
-  margin-bottom: 50px;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 20px;
+    color: rgb(133, 139, 144);
+    height: 65px;
+    border: 0;
+    border-radius: 50px;
+    background-color: rgb(241, 243, 244);
+    text-indent: 30px;
+    float: left;
+    width: 780px;
+    padding-right: 30px;
+    margin-bottom: 50px;
 }
 
 a {
-color: rgb(70, 136, 241);
+    color: rgb(70, 136, 241);
 }
 
 .user-info {
-  float: right;
-  text-align: right;
+    float: right;
+    text-align: right;
 }
 
 .todo-logo {
-  display: block;
-  float: left;
-  margin-bottom: 50px;
+    display: block;
+    float: left;
+    margin-bottom: 50px;
 }
 
 .sublist-line {
-  width: 780px;
-  height 50px;
-  float: left;
-  padding-left: 25px;
-  margin-top: 10px;
-  padding-right: 7px;
+    width: 780px;
+    float: left;
+    padding-left: 25px;
+    margin-top: 10px;
+    padding-right: 7px;
 }
 
 .fade-in.ng-enter {
-  transition: 0.4s linear all;
-  opacity: 0;
+    transition: 0.4s linear all;
+    opacity: 0;
 }
 
 .fade-in.ng-enter.ng-enter-active {
-  opacity: 1;
+    opacity: 1;
 }
 
 .task-edit-field {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 16px;
-  color: rgb(133, 139, 144);
-  background-color: rgb(255, 255, 255);
-  border: 0;
-  width: 580px;
-  height: 20px;
-  margin-left: -13px;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 16px;
+    color: rgb(133, 139, 144);
+    background-color: rgb(255, 255, 255);
+    border: 0;
+    width: 580px;
+    height: 20px;
+    margin-left: -13px;
 }
 
 .task-edit-save-btn {
-  width: 40px;
-  font-size: 12px;
-  color: rgb(70, 136, 241);
-  background-color: rgb(255, 255, 255);
-  border: solid 1px rgb(70, 136, 241);
+    width: 40px;
+    font-size: 12px;
+    color: rgb(70, 136, 241);
+    background-color: rgb(255, 255, 255);
+    border: solid 1px rgb(70, 136, 241);
 }
 
 .task-edit-save-btn:hover {
-  background-color: rgb(255, 255, 255);
-  color: rgb(231, 69, 60);
-  border: 1px solid rgb(231, 69, 60);
+    background-color: rgb(255, 255, 255);
+    color: rgb(231, 69, 60);
+    border: 1px solid rgb(231, 69, 60);
 }
 
 .completed-true {
-  color: rgb(220, 220, 220);
-  text-decoration: line-through;
+    color: rgb(220, 220, 220);
+    text-decoration: line-through;
 }
 
 .checklist-item-edit-field {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 16px;
-  color: rgb(133, 139, 144);
-  background-color: rgb(255, 255, 255);
-  border: 0;
-  width: 580px;
-  height: 20px;
-  margin-left: -13px;
-  background-color: rgb(241, 243, 244);
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 16px;
+    color: rgb(133, 139, 144);
+    border: 0;
+    width: 580px;
+    height: 20px;
+    margin-left: -13px;
+    background-color: rgb(241, 243, 244);
 }
 
 .basic-container {
-  width: 780px;
-  clear: left;
-  margin: 50px auto 50px auto;
+    width: 780px;
+    clear: left;
+    margin: 50px auto 50px auto;
 }
 
 .basic-container h1 {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .basic-container p {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
-.ng-hide { display: none !important }
-
-.avatar {
-  width: 150px;
+.ng-hide {
+    display: none !important;
 }
-
-.avatar img {
-  border: 0px;
-  border-radius: 100px;
-  width: 150px;
-  height: auto;
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.4s;
-}
-
-.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.avatar img:hover {
-  opacity: 0.5;
-  content: 'Change photo';
-}
-
-/* file upload styling */
 
 .thumb {
     width: 24px;
@@ -281,7 +255,7 @@ form .progress {
 
 .progress {
     display: inline-block;
-    width: 100px;
+    width: 150px;
 }
 
 .progress div {
@@ -293,11 +267,33 @@ form .progress {
     text-align: center;
 }
 
-/* end of file upload styling */
+.account-data-container {
+    width: 500px;
+    margin: 20px auto 0 auto;
+    text-align: center;
+}
 
-.avatar-thumb img {
-    border: 0px;
-    border-radius: 30px;
-    width: 60px;
+.user-name {
+    font-size: 28px;
+}
+
+.avatar-container {
+    width: 150px;
     height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.avatar-container input {
+    width: 150px;
+    height: auto;
+    border-radius: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1;
+    transition: opacity 0.4s;
+}
+
+.avatar-container input:hover {
+    opacity: 0.5;
 }
