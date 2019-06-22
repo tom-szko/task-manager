@@ -16,7 +16,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/*.js", "/*.css", "/images/*.png").permitAll()
+                .antMatchers("/*.js", "/styles/*.css", "/images/*.png", "/external/*.js", "/external/*.css").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
