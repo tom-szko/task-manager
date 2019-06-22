@@ -1,17 +1,17 @@
 package com.szkopinski.todoo.configuration;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-public class NoPopupBasicAuthenticationEntryPoint implements AuthenticationEntryPoint {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-  @Override
-  public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-      org.springframework.security.core.AuthenticationException e) throws IOException, ServletException {
+class NoPopupBasicAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-  }
+    @Override
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                         org.springframework.security.core.AuthenticationException e) throws IOException {
+
+        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+    }
 }

@@ -1,25 +1,8 @@
 package com.szkopinski.todoo.controller;
 
-import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.sun.tools.javac.util.List;
 import com.szkopinski.todoo.model.Task;
-import com.szkopinski.todoo.model.UserName;
 import com.szkopinski.todoo.repository.AccountRepository;
 import com.szkopinski.todoo.service.TaskService;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +12,18 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = TaskController.class)
 class TaskControllerTest {
@@ -54,9 +49,9 @@ class TaskControllerTest {
   void shouldReturnAllTasks() throws Exception {
 
     //given
-    Task task1 = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16), new UserName("user"));
-    Task task2 = new Task("Some text2", false, new ArrayList<>(), LocalDate.of(2019, 4, 4), LocalDate.of(2019, 5, 20), new UserName("user"));
-    Task task3 = new Task("Some text3", false, new ArrayList<>(), LocalDate.of(2019, 4, 5), LocalDate.of(2019, 5, 22), new UserName("user"));
+    Task task1 = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16), "user");
+    Task task2 = new Task("Some text2", false, new ArrayList<>(), LocalDate.of(2019, 4, 4), LocalDate.of(2019, 5, 20), "user");
+    Task task3 = new Task("Some text3", false, new ArrayList<>(), LocalDate.of(2019, 4, 5), LocalDate.of(2019, 5, 22), "user");
     Iterable<Task> tasks = List.of(task1, task2, task3);
     String tasksAsJson = convertToJson(tasks);
     when(taskService.findAllTasks()).thenReturn(tasks);
@@ -80,7 +75,7 @@ class TaskControllerTest {
   void shouldReturnTaskWithGivenId() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16), new UserName("user"));
+    Task task = new Task("Some text", false, new ArrayList<>(), LocalDate.of(2019, 4, 3), LocalDate.of(2019, 5, 16), "user");
     String taskAsJson = convertToJson(task);
     when(taskService.findTask(taskId)).thenReturn(Optional.of(task));
     //when
@@ -101,7 +96,7 @@ class TaskControllerTest {
   @DisplayName("Should add new task")
   void shouldAddNewTask() throws Exception {
     //given
-    Task task = new Task("Read Effective Java book", false, new ArrayList<>(), LocalDate.of(2019, 5, 14), LocalDate.of(2019, 8, 14), new UserName("user"));
+    Task task = new Task("Read Effective Java book", false, new ArrayList<>(), LocalDate.of(2019, 5, 14), LocalDate.of(2019, 8, 14), "user");
     String taskAsJson = convertToJson(task);
     when(taskService.addTask(task)).thenReturn(task);
     //when
@@ -143,7 +138,7 @@ class TaskControllerTest {
   void shouldUpdateTaskWithGivenIdNumber() throws Exception {
     //given
     int taskId = 1;
-    Task updatedTask = new Task("Updated Text", false, new ArrayList<>(), LocalDate.of(2019, 4, 13), LocalDate.of(2019, 5, 26), new UserName("user"));
+    Task updatedTask = new Task("Updated Text", false, new ArrayList<>(), LocalDate.of(2019, 4, 13), LocalDate.of(2019, 5, 26), "user");
     String updatedTaskAsJson = convertToJson(updatedTask);
     when(taskService.updateTask(taskId, updatedTask)).thenReturn(updatedTask);
 

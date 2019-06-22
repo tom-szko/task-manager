@@ -1,23 +1,8 @@
 package com.szkopinski.todoo.controller;
 
-import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.szkopinski.todoo.model.ChecklistItem;
 import com.szkopinski.todoo.model.Task;
-import com.szkopinski.todoo.model.UserName;
 import com.szkopinski.todoo.service.TaskService;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +12,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.szkopinski.todoo.helpers.TestHelpers.convertToJson;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -62,8 +57,7 @@ class TaskControllerIT {
   void shouldReturnTaskById() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14),
-        new UserName("user"));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), "user");
     taskService.addTask(task);
     //when
     mockMvc
@@ -81,8 +75,7 @@ class TaskControllerIT {
   void shouldAddNewTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14),
-        new UserName("user"));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), "user");
     String taskAsJson = convertToJson(task);
     //when
     mockMvc
@@ -103,8 +96,7 @@ class TaskControllerIT {
   void shouldRemoveSingleTask() throws Exception {
     //given
     int taskId = 1;
-    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14),
-        new UserName("user"));
+    Task task = new Task(taskId, "Read Effective Java book", false, new ArrayList<>(), LocalDate.now(), LocalDate.of(2019, 8, 14), "user");
     taskService.addTask(task);
     //when
     mockMvc
@@ -121,14 +113,13 @@ class TaskControllerIT {
   @WithMockUser
   void shouldUpdateSingleTask() throws Exception {
     //given
-    Task task = new Task("Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5), new UserName("user"));
+    Task task = new Task("Some title", false, new ArrayList<>(), LocalDate.of(2019, 4, 12), LocalDate.of(2019, 5, 5), "user");
     Task addedTask = taskService.addTask(task);
     List<ChecklistItem> updatedChecklistItems = new ArrayList<>();
     updatedChecklistItems.add(new ChecklistItem("Buy milk", false));
     updatedChecklistItems.add(new ChecklistItem("Wash dishes", true));
     Task updatedTask = new Task(addedTask.getId(), "Updated title", false, updatedChecklistItems, task.getCreationDate(), LocalDate.of(2019, 6,
-        20),
-        new UserName("user"));
+            20), "user");
     String updatedTaskAsJson = convertToJson(updatedTask);
 
     //when
@@ -149,6 +140,6 @@ class TaskControllerIT {
         .andExpect(jsonPath("$.checklist[1].completed").value(updatedTask.getChecklist().get(1).isCompleted()))
         .andExpect(jsonPath("$.creationDate").value(updatedTask.getCreationDate().toString()))
         .andExpect(jsonPath("$.deadline").value(updatedTask.getDeadline().toString()))
-        .andExpect(jsonPath("$.userName.name").value(updatedTask.getUserName().getName()));
+            .andExpect(jsonPath("$.userName.name").value(updatedTask.getUserName()));
   }
 }

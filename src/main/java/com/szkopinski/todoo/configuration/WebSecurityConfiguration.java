@@ -9,23 +9,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-        .httpBasic()
-        .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
-        .and()
-        .authorizeRequests()
-        .antMatchers("/*.js", "/*.css", "/images/*.png").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin()
-        .loginPage("/login.html")
-        .permitAll()
-        .and()
-        .logout()
-        .permitAll()
-        .and()
-        .csrf().disable();
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic()
+                .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
+                .and()
+                .authorizeRequests()
+                .antMatchers("/styles/*.css", "/images/*.png", "/scripts/*.js", "/app/*.js", "/app/controllers/*.js").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login.html")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
+                .and()
+                .csrf().disable();
+    }
 }
