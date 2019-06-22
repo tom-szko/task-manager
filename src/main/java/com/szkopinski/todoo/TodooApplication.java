@@ -3,7 +3,6 @@ package com.szkopinski.todoo;
 import com.szkopinski.todoo.model.Account;
 import com.szkopinski.todoo.model.ChecklistItem;
 import com.szkopinski.todoo.model.Task;
-import com.szkopinski.todoo.model.UserName;
 import com.szkopinski.todoo.repository.AccountRepository;
 import com.szkopinski.todoo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class TodooApplication implements CommandLineRunner {
                 sampleChecklist,
                 LocalDate.of(2019, 4, 14),
                 LocalDate.of(2019, 5, 24),
-                new UserName("admin"));
+                "admin");
         taskRepository.save(sampleTask);
 
         List<ChecklistItem> sampleChecklist2 = new ArrayList<>();
@@ -69,7 +68,7 @@ public class TodooApplication implements CommandLineRunner {
                 sampleChecklist2,
                 LocalDate.of(2019, 4, 14),
                 LocalDate.of(2019, 5, 24),
-                new UserName("admin"));
+                "admin");
         taskRepository.save(sampleTask2);
     }
 }

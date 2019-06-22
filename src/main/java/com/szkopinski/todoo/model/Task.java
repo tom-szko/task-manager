@@ -47,11 +47,10 @@ public class Task {
     private LocalDate deadline;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
-    @ApiModelProperty(name = "account", example = "john_doe123")
-    private UserName userName;
+    @ApiModelProperty(name = "username", example = "john_doe123")
+    private String userName;
 
-    public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline, UserName userName) {
+    public Task(String contents, boolean completed, List<ChecklistItem> checklist, LocalDate creationDate, LocalDate deadline, String userName) {
         this.contents = contents;
         this.completed = completed;
         this.checklist = checklist;

@@ -48,7 +48,7 @@ public class TaskService {
     List<Task> tasks = new ArrayList<>();
     findAllTasks().forEach(tasks::add);
     return tasks.stream()
-            .filter(task -> task.getUserName().getName().equals(userName))
+            .filter(task -> task.getUserName().equals(userName))
             .collect(Collectors.toList());
   }
 
