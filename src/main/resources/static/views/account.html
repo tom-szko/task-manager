@@ -1,19 +1,19 @@
 <div class="basic-container">
-  <h1>Account</h1>
+    <h1>Account</h1>
     <div class="avatar-container">
         <input accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" ngf-select="uploadFiles($file, $invalidFiles)"
                src="{{ avatarUrl }}"
                type="image">
-        <span class="progress" ng-show="f.progress >= 0 && f.progress < 100">
-          <div ng-bind="f.progress + '%'" style="width:{{f.progress}}%"></div>
-      </span>
-  </div>
+        <div class="progress" ng-show="f.progress >= 0 && f.progress < 100">
+            <div ng-bind="f.progress + '%'" style="width:{{f.progress}}%"></div>
+        </div>
+    </div>
     <div class="account-data-container">
         <p class="user-name">{{ accountData.userName }}</p>
         <p>{{ accountData.email }}</p>
     </div>
     <br><br>
     <div>{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</div>
-  {{errorMsg}}
-  <a href="#!tasks">Back to tasks</a>
+    {{errorMsg}}
+    <a href="#!tasks">Back to tasks</a>
 </div>

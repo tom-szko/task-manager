@@ -1,10 +1,10 @@
 <div class="input-container">
   <form>
     <input
-        class="input-field"
-        ng-model="taskToAdd"
-        placeholder="Type something and press Enter..."
-        type="text"
+            class="input-field"
+            ng-model="taskToAdd"
+            placeholder="Type something and press Enter..."
+            type="text"
     />
     <input class="btn task-add-btn" ng-click="addTask()" type="submit" value="+"/>
   </form>
@@ -18,13 +18,14 @@
       <div class="line">
         <div class="pretty p-icon p-round">
           <input
-              ng-click="markTask($index)"
-              ng-model="$scope.task.completed"
-              type="checkbox"
+                  ng-click="markTask($index)"
+                  ng-model="$scope.task.completed"
+                  type="checkbox"
           />
           <div class="state p-primary-o">
             <i class="icon mdi mdi-check"></i>
-            <label><span class="completed-{{ $scope.task.completed }}" ng-if="!isEdited">{{ task.contents }}</span></label>
+            <label><span class="completed-{{ $scope.task.completed }}"
+                         ng-if="!isEdited">{{ task.contents }}</span></label>
           </div>
         </div>
         <input class="task-edit-field" ng-hide="!isEdited" ng-model="task.contents" type="text"/>
@@ -40,30 +41,36 @@
              ng-show="isActiveLine"></i>
         </div>
         <div class="func-icon">
-          <i class="icon mdi mdi-circle-edit-outline" ng-click="isEdited = true" ng-show="isActiveLine && !isEdited"></i>
-          <input class="task-edit-save-btn btn" ng-click="isEdited=false; updateTask($index)" ng-hide="!isEdited" type="submit" value="Save"/>
+          <i class="icon mdi mdi-circle-edit-outline" ng-click="isEdited = true"
+             ng-show="isActiveLine && !isEdited"></i>
+          <input class="task-edit-save-btn btn" ng-click="isEdited=false; updateTask($index)"
+                 ng-hide="!isEdited" type="submit" value="Save"/>
         </div>
       </div>
-      <div class="sublist-line" ng-repeat="checklistItem in task.checklist track by checklistItem.id" ng-show="showSubline">
+      <div class="sublist-line" ng-repeat="checklistItem in task.checklist track by checklistItem.id"
+           ng-show="showSubline">
         <div class="pretty p-default p-round">
           <input
-              ng-click="markChecklistItem($parent.$index, $index)"
-              ng-model="$scope.task.checklist[$index].completed"
-              type="checkbox"
+                  ng-click="markChecklistItem($parent.$index, $index)"
+                  ng-model="$scope.task.checklist[$index].completed"
+                  type="checkbox"
           />
           <div class="state p-primary">
             <label><span class="completed-{{ $scope.checklistItem.completed }}"
                          ng-if="!isChecklistItemEdited">{{ checklistItem.description }}</span></label>
           </div>
         </div>
-        <input class="checklist-item-edit-field" ng-hide="!isChecklistItemEdited" ng-model="task.checklist[$index].description"
+        <input class="checklist-item-edit-field" ng-hide="!isChecklistItemEdited"
+               ng-model="task.checklist[$index].description"
                type="text"/>
         <div class="func-icon">
           <i class="icon mdi mdi-close" ng-click="deleteChecklistItem($parent.$index, $index)"></i>
         </div>
         <div class="func-icon">
-          <i class="icon mdi mdi-circle-edit-outline" ng-click="isChecklistItemEdited = true" ng-show="!isChecklistItemEdited"></i>
-          <input class="task-edit-save-btn btn" ng-click="isChecklistItemEdited=false; updateTask($parent.$index)"
+          <i class="icon mdi mdi-circle-edit-outline" ng-click="isChecklistItemEdited = true"
+             ng-show="!isChecklistItemEdited"></i>
+          <input class="task-edit-save-btn btn"
+                 ng-click="isChecklistItemEdited=false; updateTask($parent.$index)"
                  ng-hide="!isChecklistItemEdited" type="submit"
                  value="Save"/>
         </div>

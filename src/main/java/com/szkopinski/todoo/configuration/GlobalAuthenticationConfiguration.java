@@ -8,11 +8,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 @Configuration
 public class GlobalAuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
-  @Autowired
-  private com.szkopinski.todoo.service.AccountService accountService;
+    @Autowired
+    private com.szkopinski.todoo.service.AccountService accountService;
 
-  @Override
-  public void init(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(accountService.getUser());
-  }
+    @Override
+    public void init(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(accountService.getUser());
+    }
 }

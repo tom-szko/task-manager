@@ -2,8 +2,6 @@ package com.szkopinski.todoo.service;
 
 import com.szkopinski.todoo.model.Account;
 import com.szkopinski.todoo.repository.AccountRepository;
-import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -12,11 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Optional;
+
 @Service
 public class AccountService {
 
-  private static PasswordEncoder passwordEncoder;
-  private AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
+  private PasswordEncoder passwordEncoder;
 
   @Autowired
   public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
@@ -24,7 +25,7 @@ public class AccountService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public static String encodePassword(String password) {
+  private String encodePassword(String password) {
     return passwordEncoder.encode(password);
   }
 
@@ -55,12 +56,12 @@ public class AccountService {
   @Transactional
   public Account updateAccount(int accountId, Account updatedAccount) {
     return accountRepository.findById(accountId)
-        .map(account -> {
-          account.setUserName(updatedAccount.getUserName());
-          account.setPassword(updatedAccount.getPassword());
-          account.setEmail(updatedAccount.getEmail());
-          return account;
-        }).orElse(null);
+            .map(account -> {
+              account.setUserName(updatedAccount.getUserName());
+              account.setPassword(updatedAccount.getPassword());
+              account.setEmail(updatedAccount.getEmail());
+              return account;
+            }).orElse(null);
   }
 
   public UserDetailsService getUser() {
@@ -68,7 +69,7 @@ public class AccountService {
       Optional<Account> account = accountRepository.findByUserName(userName);
       if (account.isPresent()) {
         return new User(account.get().getUserName(), account.get().getPassword(), true, true, true, true, AuthorityUtils.createAuthorityList(
-            "USER"));
+                "USER"));
       } else {
         throw new UsernameNotFoundException("Could not find the account '" + userName + "'");
       }

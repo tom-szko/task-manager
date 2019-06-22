@@ -93,11 +93,6 @@ h1 {
     transition: background-color 0.3s;
 }
 
-.task-checkbox {
-    display: inline-block;
-    margin-right: 10px;
-}
-
 .line:hover {
     background-color: rgb(242, 248, 255);
     border-radius: 50px;
@@ -239,14 +234,6 @@ a {
 
 .ng-hide {
     display: none !important;
-}
-
-.thumb {
-    width: 24px;
-    height: 24px;
-    float: none;
-    position: relative;
-    top: 7px;
 }
 
 form .progress {

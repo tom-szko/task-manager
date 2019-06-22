@@ -2,29 +2,18 @@ package com.szkopinski.todoo.controller;
 
 import com.szkopinski.todoo.model.Task;
 import com.szkopinski.todoo.service.TaskService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/")
@@ -33,7 +22,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api("/api/")
 public class TaskController {
 
-  private TaskService taskService;
+  private final TaskService taskService;
 
   @Autowired
   TaskController(TaskService taskService) {
@@ -42,8 +31,8 @@ public class TaskController {
 
   @GetMapping("tasks")
   @ApiOperation(value = "Finds all tasks", notes = "Retrieving the collection of tasks", response = Task[].class)
-  @ApiResponses( {
-      @ApiResponse(code = 200, message = "Success", response = Task[].class)
+  @ApiResponses({
+          @ApiResponse(code = 200, message = "Success", response = Task[].class)
   })
   public ResponseEntity<Iterable<Task>> getAllTasks() {
     return ResponseEntity.ok(taskService.findAllTasks());
@@ -51,12 +40,12 @@ public class TaskController {
 
   @GetMapping("{userName}/tasks")
   @ApiOperation(value = "Finds all tasks for logged in user", notes = "Retrieving the collection of tasks for current user name", response =
-      Task[].class)
-  @ApiResponses( {
-      @ApiResponse(code = 200, message = "Success", response = Task[].class)
+          Task[].class)
+  @ApiResponses({
+          @ApiResponse(code = 200, message = "Success", response = Task[].class)
   })
   public ResponseEntity<Iterable<Task>> getAllTasksForCurrentUser(@ApiIgnore Authentication authentication,
-      @PathVariable("userName") String userName) {
+                                                                  @PathVariable("userName") String userName) {
     if (authentication.getName().equals(userName)) {
       return ResponseEntity.ok(taskService.findAllTasksByUserName(userName));
     }
@@ -65,9 +54,9 @@ public class TaskController {
 
   @GetMapping("tasks/{taskId}")
   @ApiOperation(value = "Finds single task", notes = "Retrieves a single task", response = Task.class)
-  @ApiResponses( {
-      @ApiResponse(code = 200, message = "Success", response = Task.class),
-      @ApiResponse(code = 404, message = "Not found")
+  @ApiResponses({
+          @ApiResponse(code = 200, message = "Success", response = Task.class),
+          @ApiResponse(code = 404, message = "Not found")
   })
   public ResponseEntity getTask(@ApiParam(value = "Id of invoice to retrieve", required = true) @Min(1) @PathVariable("taskId") int taskId) {
     Optional<Task> task = taskService.findTask(taskId);
@@ -80,9 +69,9 @@ public class TaskController {
 
   @PostMapping("tasks")
   @ApiOperation(value = "Adds single task", notes = "Adds a single task")
-  @ApiResponses( {
-      @ApiResponse(code = 200, message = "Success", response = Task.class),
-      @ApiResponse(code = 500, message = "Internal Server Error")
+  @ApiResponses({
+          @ApiResponse(code = 200, message = "Success", response = Task.class),
+          @ApiResponse(code = 500, message = "Internal Server Error")
   })
   public ResponseEntity addTask(@Valid @RequestBody Task task) {
     try {
@@ -94,9 +83,9 @@ public class TaskController {
 
   @DeleteMapping("tasks/{taskId}")
   @ApiOperation(value = "Removes single task", notes = "Removes a single task")
-  @ApiResponses( {
-      @ApiResponse(code = 204, message = "Success"),
-      @ApiResponse(code = 500, message = "Internal Server Error")
+  @ApiResponses({
+          @ApiResponse(code = 204, message = "Success"),
+          @ApiResponse(code = 500, message = "Internal Server Error")
   })
   public ResponseEntity deleteTask(@Min(1) @PathVariable("taskId") int taskId) {
     try {
@@ -109,9 +98,9 @@ public class TaskController {
 
   @PutMapping("tasks/{taskId}")
   @ApiOperation(value = "Updates single task", notes = "Updates a single task")
-  @ApiResponses( {
-      @ApiResponse(code = 200, message = "Success"),
-      @ApiResponse(code = 404, message = "Not found")
+  @ApiResponses({
+          @ApiResponse(code = 200, message = "Success"),
+          @ApiResponse(code = 404, message = "Not found")
   })
   public ResponseEntity updateTask(@Min(1) @PathVariable("taskId") int taskId, @Valid @RequestBody Task updatedTask) {
     try {

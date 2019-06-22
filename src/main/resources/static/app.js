@@ -82,7 +82,7 @@ app.controller("taskController", function ($rootScope, $scope, $http) {
     }
 
     $scope.markTask = function (x) {
-        !$scope.tasks[x].completed;
+        $scope.tasks[x].completed = !$scope.tasks[x].completed;
         $http({
             method: "PUT",
             url: baseUrl + "/tasks/" + $scope.tasks[x].id,
@@ -140,7 +140,7 @@ app.controller("taskController", function ($rootScope, $scope, $http) {
     };
 
     $scope.markChecklistItem = function (parentIndex, index) {
-        !$scope.tasks[parentIndex].checklist[index].completed;
+        $scope.tasks[parentIndex].checklist[index].completed = !$scope.tasks[parentIndex].checklist[index].completed;
         $http({
             method: "PUT",
             url: baseUrl + "/tasks/" + $scope.tasks[parentIndex].id,
@@ -232,7 +232,7 @@ app.controller("accountController", function ($rootScope, $scope, $http, Upload,
                 if (response.status > 0)
                     $scope.errorMsg = response.status + ': ' + response.data;
             }, function (evt) {
-                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                file.progress = Math.min(100, Math.round(100.0 * evt.loaded / evt.total));
             });
         }
     };
