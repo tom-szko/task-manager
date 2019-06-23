@@ -1,10 +1,8 @@
-var baseUrl = '/api';
-
 angular.module('todooApp').controller('securityController', securityController);
 
-securityController.$inject = ['$scope', '$http'];
+securityController.$inject = ['$scope', '$http', 'baseUrl'];
 
-function securityController($scope, $http) {
+function securityController($scope, $http, baseUrl) {
 
     $scope.credentials = {};
 

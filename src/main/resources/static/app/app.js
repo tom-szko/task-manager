@@ -18,3 +18,5 @@ app.config(function ($routeProvider) {
             redirectTo: '/tasks'
         });
 });
+
+app.constant('baseUrl', '/api');

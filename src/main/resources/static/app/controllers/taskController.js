@@ -1,10 +1,8 @@
-var baseUrl = '/api';
-
 angular.module('todooApp').controller('taskController', taskController);
 
-taskController.$inject = ['$rootScope', '$scope', '$http'];
+taskController.$inject = ['$rootScope', '$scope', '$http', 'baseUrl'];
 
-function taskController($rootScope, $scope, $http) {
+function taskController($rootScope, $scope, $http, baseUrl) {
 
     getUserName();
 

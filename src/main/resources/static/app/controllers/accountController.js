@@ -1,10 +1,8 @@
-var baseUrl = '/api';
-
 angular.module('todooApp').controller('accountController', accountController);
 
-accountController.$inject = ['$rootScope', '$scope', '$http', 'Upload', '$timeout'];
+accountController.$inject = ['$rootScope', '$scope', '$http', 'Upload', '$timeout', 'baseUrl'];
 
-function accountController($rootScope, $scope, $http, Upload, $timeout) {
+function accountController($rootScope, $scope, $http, Upload, $timeout, baseUrl) {
 
     getAccount();
 
