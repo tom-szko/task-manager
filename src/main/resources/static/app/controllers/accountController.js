@@ -41,7 +41,27 @@ function accountController($rootScope, $scope, $http, Upload, $timeout, baseUrl)
                 } else {
                     $scope.avatarUrl = 'images/default_avatar.png';
                 }
-                console.log($scope.accountData);
+            },
+            function error(response) {
+                alert(response.statusText);
+            }
+        );
+    }
+
+    $scope.updateAccountData = function () {
+        $scope.isDataEdited = false;
+        $http({
+            method: 'PUT',
+            url: baseUrl + '/accounts/' + $scope.accountData.id,
+            data: {
+                userName: $scope.accountData.username,
+                password: $scope.newPassword,
+                email: $scope.accountData.email,
+                avatar: $scope.accountData.avatar
+            }
+        }).then(
+            function success() {
+                getAccount()
             },
             function error(response) {
                 alert(response.statusText);

@@ -7,13 +7,22 @@
         <div class="progress" ng-show="f.progress >= 0 && f.progress < 100">
             <div ng-bind="f.progress + '%'" style="width:{{f.progress}}%"></div>
         </div>
+        <div class="error-message">{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</div>
+        {{errorMsg}}
     </div>
     <div class="account-data-container">
         <p class="user-name">{{ accountData.userName }}</p>
-        <p>{{ accountData.email }}</p>
+        <p ng-if="!isDataEdited">{{ accountData.email }}</p>
+        <input class="user-data-edit-btn btn" ng-click="isDataEdited=!isDataEdited" ng-hide="isDataEdited" type="button"
+               value="Edit account data"/>
+        <form ng-if="isDataEdited">
+            <input class="input-field-mini" ng-model="accountData.email" placeholder="Your new password"
+                   spellcheck="false" type="text"/>
+            <input class="input-field-mini" ng-model="newPassword" spellcheck="false" type="password"/>
+            <input class="user-data-update-btn btn" ng-click="updateAccountData()" type="submit" type="button"
+                   value="Update account data"/>
+        </form>
     </div>
     <br><br>
-    <div>{{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</div>
-    {{errorMsg}}
     <a href="#!tasks">Back to tasks</a>
 </div>
