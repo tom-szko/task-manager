@@ -16,16 +16,12 @@ Todoo is a fully functional task management app, however it's still under develo
 - extended admin account allowing for manipulating users
 - new user sign up page
 
-### Screenshots
-
-![Todoo logo](./images/todoo_screen1.png)
-![Todoo logo](./images/todoo_screen2.png)
-![Todoo logo](./images/todoo_screen3.png)
-
 ### Installation
 
 Before starting the application make sure you have a running instance of MySQL.
 Also before the first run you should manually create a database called ```tasks```
+Make sure that ```application.properties``` file contains proper user and password information for your running instance of MySQL.
+
 You can start the application running it from within your favourite IDE which supports maven or you can start it directly from command line by typing:
 ```mvn spring-boot:run``` (please make sure that you have maven istalled on your system).
 
