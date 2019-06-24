@@ -11,6 +11,9 @@ Todoo is a fully functional task management app, however it's still under develo
 - account data update
 - sleek UI
 
+### Screenshots
+![main todoo screen](./images/todoo_screen1.jpg)
+
 ### Features to be added soon
 - task deadlines
 - extended admin account allowing for manipulating users
