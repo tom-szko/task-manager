@@ -36,10 +36,10 @@ public class TodooApplication implements CommandLineRunner {
 
         //Sample preloaded accounts
 
-        Account account1 = new Account("admin", passwordEncoder.encode("password"), "admin@szkopinski.com", null);
+        Account account1 = new Account("admin", passwordEncoder.encode("password"), "admin@email.com", null);
         accountRepository.save(account1);
         System.out.println(account1.toString());
-        Account account2 = new Account("tyler", passwordEncoder.encode("password"), "tyler@email.com", null);
+        Account account2 = new Account("tyler", passwordEncoder.encode("password"), "user@email.com", null);
         accountRepository.save(account2);
         System.out.println(account2.toString());
 
